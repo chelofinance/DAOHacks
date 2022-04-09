@@ -17,11 +17,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
+import {useWallet,  UseWalletProvider } from 'use-wallet'
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const LOGO = 'QuickLend';
 
 const Navbar = () => {
+  const wallet = useWallet()
+  const blockNumber = wallet.getBlockNumber()
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -120,33 +125,17 @@ const Navbar = () => {
 
 					{/* Menu Right */}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {wallet.status === 'connected' ? (
+              <div>
+                <div>Account: {wallet.account}</div>
+                <div>Balance: {wallet.balance}</div>
+                <button onClick={() => wallet.reset()}>disconnect</button>
+              </div>
+            ) : (
+              <div>
+                <button onClick={() => wallet.connect()}>Connect Wallet</button>
+              </div>
+            )}
           </Box>
         </Toolbar>
       </Container>
