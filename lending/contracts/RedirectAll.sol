@@ -1,14 +1,18 @@
-//SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
-pragma abicoder v2;
+pragma experimental ABIEncoderV2;
 
 import {
     ISuperfluid,
     ISuperToken,
     ISuperApp,
     ISuperAgreement,
+    ContextDefinitions,
     SuperAppDefinitions
 } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+
+// When ready to move to leave Remix, change imports to follow this pattern:
+// "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
 import {
     IConstantFlowAgreementV1
@@ -18,27 +22,28 @@ import {
     SuperAppBase
 } from "@superfluid-finance/ethereum-contracts/contracts/apps/SuperAppBase.sol";
 
-import "./TradeableFlowStorage.sol";
-
 contract RedirectAll is SuperAppBase {
 
-    TradeableFlowStorage.SuperCardProgram internal _scp;
-    TradeableFlowStorage.TempContextData internal _tcd;
+    ISuperfluid private _host; // host
+    IConstantFlowAgreementV1 private _cfa; // the stored constant flow agreement class address
+    ISuperToken private _acceptedToken; // accepted token
+    address private _receiver;
 
     constructor(
         ISuperfluid host,
         IConstantFlowAgreementV1 cfa,
-        address owner,
-        string memory registrationKey
-        ) {
-        require(address(host) != address(0), "host");
-        require(address(cfa) != address(0), "cfa");
-        require(address(owner) != address(0), "owner");
-        require(!host.isApp(ISuperApp(owner)), "owner SA");
+        ISuperToken acceptedToken,
+        address receiver) {
+        require(address(host) != address(0), "host is zero address");
+        require(address(cfa) != address(0), "cfa is zero address");
+        require(address(acceptedToken) != address(0), "acceptedToken is zero address");
+        require(address(receiver) != address(0), "receiver is zero address");
+        require(!host.isApp(ISuperApp(receiver)), "receiver is an app");
 
-        _scp.host = host;
-        _scp.cfa = cfa;
-        _scp.owner = owner;
+        _host = host;
+        _cfa = cfa;
+        _acceptedToken = acceptedToken;
+        _receiver = receiver;
 
         uint256 configWord =
             SuperAppDefinitions.APP_LEVEL_FINAL |
@@ -46,146 +51,134 @@ contract RedirectAll is SuperAppBase {
             SuperAppDefinitions.BEFORE_AGREEMENT_UPDATED_NOOP |
             SuperAppDefinitions.BEFORE_AGREEMENT_TERMINATED_NOOP;
 
-        // _scp.host.registerApp(configWord);
-        if(bytes(registrationKey).length > 0) {
-            _scp.host.registerAppWithKey(configWord, registrationKey);
-        } else {
-            _scp.host.registerApp(configWord);
+        _host.registerApp(configWord);
+    }
+
+
+    /**************************************************************************
+     * Redirect Logic
+     *************************************************************************/
+
+    function currentReceiver()
+        external view
+        returns (
+            uint256 startTime,
+            address receiver,
+            int96 flowRate
+        )
+    {
+        if (_receiver != address(0)) {
+            (startTime, flowRate,,) = _cfa.getFlow(_acceptedToken, address(this), _receiver);
+            receiver = _receiver;
         }
     }
 
-    // To be eligible for income:
-    // 1. Employer must have been registered by SuperCard program owner
-    // 2. Employer must have registerEmployee()
-    // 3. Registered employee must have minted SuperCard
-    // Now employer may start paying employee
-    function _createOutflow(ISuperToken supertoken) internal returns (bytes memory newCtx) {
-        newCtx = _tcd.ctx;
-        // Get employer (flow starter) from agreementData
-        (address employer, ) = abi.decode(_tcd.agreementData, (address, address));
-        // 1. require creator is an authorized employer
-        require(_scp.employers[employer].authorized,"!authorizedEmployer");
-        // Get user data from context (employee) - because of this, the createFlow must be done with userData specified or it will revert
-        // address employee = abi.decode(_scp.host.decodeCtx(newCtx).userData, (address));
-        uint256 tokenId = abi.decode(_scp.host.decodeCtx(newCtx).userData, (uint256));
-        address employee = _scp.tokenIdToEmployee[tokenId];
-        // 2. require target employee is under employer
-        require(_scp.employers[employer].activeEmployees[employee],"!activeEmployee");
-        // 3. require that target employee has actually minted SuperCard
-        require( _scp.employees[employee].tokenId != 0, "!mintedSC" );
+    event ReceiverChanged(address receiver); //what is this?
 
+    /// @dev If a new stream is opened, or an existing one is opened
+    function _updateOutflow(bytes calldata ctx)
+        private
+        returns (bytes memory newCtx)
+    {
+      newCtx = ctx;
+      // @dev This will give me the new flowRate, as it is called in after callbacks
+      int96 netFlowRate = _cfa.getNetFlow(_acceptedToken, address(this));
+      (,int96 outFlowRate,,) = _cfa.getFlow(_acceptedToken, address(this), _receiver); // CHECK: unclear what happens if flow doesn't exist.
+      int96 inFlowRate = netFlowRate + outFlowRate;
 
-        // Get how much employer is streaming to the app as income
-        (,int96 currentEmployerFlow,,) = _scp.cfa.getFlow(supertoken, employer, address(this));
-        // Open flow with that same amount to the first employee
-        newCtx = _createFlow(employee,currentEmployerFlow,supertoken,newCtx);
-        // Set the employee's income rate to what the employer is now providing
-        _scp.employees[employee].incomeInflowRate = currentEmployerFlow;
-        
-
+      // @dev If inFlowRate === 0, then delete existing flow.
+      if (inFlowRate == int96(0)) {
+        // @dev if inFlowRate is zero, delete outflow.
+          (newCtx, ) = _host.callAgreementWithContext(
+              _cfa,
+              abi.encodeWithSelector(
+                  _cfa.deleteFlow.selector,
+                  _acceptedToken,
+                  address(this),
+                  _receiver,
+                  new bytes(0) // placeholder
+              ),
+              "0x",
+              newCtx
+          );
+        } else if (outFlowRate != int96(0)){
+        (newCtx, ) = _host.callAgreementWithContext(
+            _cfa,
+            abi.encodeWithSelector(
+                _cfa.updateFlow.selector,
+                _acceptedToken,
+                _receiver,
+                inFlowRate,
+                new bytes(0) // placeholder
+            ),
+            "0x",
+            newCtx
+        );
+      } else {
+      // @dev If there is no existing outflo, then create new flow to equal inflow
+          (newCtx, ) = _host.callAgreementWithContext(
+              _cfa,
+              abi.encodeWithSelector(
+                  _cfa.createFlow.selector,
+                  _acceptedToken,
+                  _receiver,
+                  inFlowRate,
+                  new bytes(0) // placeholder
+              ),
+              "0x",
+              newCtx
+          );
+      }
     }
 
-
-    function _updateOutflow(ISuperToken supertoken) internal returns (bytes memory newCtx) {
-        newCtx = _tcd.ctx;
-        // Get employer (flow starter) from agreementData
-        (address employer, ) = abi.decode(_tcd.agreementData, (address, address));
-        // iterate across all of the employer's employees and cancel outbound streams, set employees to inactive
-        // Get user data from context (employee) - because of this, the createFlow must be done with userData specified or it will revert
-        // address employee = abi.decode(_scphost.decodeCtx(newCtx).userData, (address));
-        uint256 tokenId = abi.decode(_scp.host.decodeCtx(newCtx).userData, (uint256));
-
-        // Get employee behind token ID
-        address employee = _scp.tokenIdToEmployee[tokenId];
-
-        // Change flow to employee by rate adjustment delta
-        (,int96 currentEmployerFlow,,) = _scp.cfa.getFlow(supertoken, employer, address(this));
-        (,int96 currentEmployeeFlow,,) = _scp.cfa.getFlow(supertoken, address(this), employee);
-        int96 rateDelta = currentEmployerFlow - _scp.employees[employee].incomeInflowRate;
-        newCtx = _updateFlow(employee, currentEmployeeFlow + rateDelta,_scp.paymentToken, newCtx);
-
-        _scp.employees[employee].incomeInflowRate += rateDelta;
-
-    }
-
-
-    function _deleteOutflow(ISuperToken supertoken) internal returns (bytes memory newCtx) {
-        newCtx = _tcd.ctx;
-        // Get employer (flow starter) from agreementData
-        (address employer, ) = abi.decode(_tcd.agreementData, (address, address));
-
-
-        for (uint i=0; i<_scp.employers[employer].employeeList.length; i++) {
-            address employee = _scp.employers[employer].employeeList[i];
-
-            // Delete flow to employee
-            (,int96 currentFlowToEmployee,,) = _scp.cfa.getFlow(supertoken, address(this), employee);
-            if ( currentFlowToEmployee != 0 ) {
-                newCtx = _deleteFlow(address(this), employee, _scp.paymentToken, newCtx);
-            }
-
-            // if employee has active interest payment going on, cancel it
-            (,int96 currentTotalInterestFlow,,) = _scp.cfa.getFlow(supertoken, address(this), _scp.owner);
-            if ( _scp.employees[employee].interestOutflowRate != 0) {
-                // If reducing by this flow brings it to zero, do a deleteFlow
-                if ( currentTotalInterestFlow - _scp.employees[employee].interestOutflowRate == 0 ) {
-                    newCtx = _deleteFlow(address(this), _scp.owner, _scp.paymentToken, newCtx);
-                } else {
-                    newCtx = _updateFlow(_scp.owner, currentTotalInterestFlow - _scp.employees[employee].interestOutflowRate, _scp.paymentToken, newCtx);
-                }
-            }
-
-            // delete each employee in employees
-            delete _scp.employees[employee];
-
-            // set employee in activeEmployees to false
-            _scp.employers[employer].activeEmployees[employee] = false;
-
-            // set employer to authorized to false
-            _scp.employers[employer].authorized = false;
-            
+    // @dev Change the Receiver of the total flow
+    function _changeReceiver( address newReceiver ) internal {
+        require(newReceiver != address(0), "New receiver is zero address");
+        // @dev because our app is registered as final, we can't take downstream apps
+        require(!_host.isApp(ISuperApp(newReceiver)), "New receiver can not be a superApp");
+        if (newReceiver == _receiver) return ;
+        // @dev delete flow to old receiver
+        (,int96 outFlowRate,,) = _cfa.getFlow(_acceptedToken, address(this), _receiver); //CHECK: unclear what happens if flow doesn't exist.
+        if(outFlowRate > 0){
+          _host.callAgreement(
+              _cfa,
+              abi.encodeWithSelector(
+                  _cfa.deleteFlow.selector,
+                  _acceptedToken,
+                  address(this),
+                  _receiver,
+                  new bytes(0)
+              ),
+              "0x"
+          );
+          // @dev create flow to new receiver
+          _host.callAgreement(
+              _cfa,
+              abi.encodeWithSelector(
+                  _cfa.createFlow.selector,
+                  _acceptedToken,
+                  newReceiver,
+                  _cfa.getNetFlow(_acceptedToken, address(this)),
+                  new bytes(0)
+              ),
+              "0x"
+          );
         }
+        // @dev set global receiver to new receiver
+        _receiver = newReceiver;
 
-        // delete employer from employers
-        delete _scp.employers[employer];
-
+        emit ReceiverChanged(_receiver);
     }
 
-
-    function _changeReceiver( address oldEmployee, address newEmployee, uint tokenId ) internal {
-        // === DATA CHANGES ===
-        // change activeEmployees for the employer that the oldEmployee is under (turn off old one, turn on new one)
-        address employer = _scp.employees[oldEmployee].employer;
-        _scp.employers[employer].activeEmployees[oldEmployee] = false;
-        _scp.employers[employer].activeEmployees[newEmployee] = true;
-        // Add newEmployee to employer employeeList. The old employee will remain, but lack of flow will be accounted for in _deleteOutflow hook
-        _scp.employers[employer].employeeList.push(newEmployee);
-        // make a new employee profile based on the previous one
-        _scp.employees[newEmployee] = _scp.employees[oldEmployee];
-
-        
-        
-        // delete the old employee profile
-        delete _scp.employees[oldEmployee];
-        // change tokenIdToEmployee
-        _scp.tokenIdToEmployee[tokenId] = newEmployee;
-
-        // === FLOW CHANGES ===
-        // Get flow rate to old employee
-        (,int96 oldEmployeeOutflow,,) = _scp.cfa.getFlow(_scp.paymentToken, address(this), oldEmployee);
-        // delete flow to oldEmployee
-        _deleteFlow(address(this), oldEmployee, _scp.paymentToken);
-        // start flow to newEmployee equal to old flow rate
-        _createFlow(newEmployee, oldEmployeeOutflow, _scp.paymentToken);
-    }
-
-
+    /**************************************************************************
+     * SuperApp callbacks
+     *************************************************************************/
 
     function afterAgreementCreated(
         ISuperToken _superToken,
         address _agreementClass,
         bytes32, // _agreementId,
-        bytes calldata _agreementData,
+        bytes calldata /*_agreementData*/,
         bytes calldata ,// _cbdata,
         bytes calldata _ctx
     )
@@ -194,40 +187,30 @@ contract RedirectAll is SuperAppBase {
         onlyHost
         returns (bytes memory newCtx)
     {
-
-        _tcd.agreementData = _agreementData;
-        _tcd.ctx = _ctx;
-
-        return _createOutflow(_superToken);
-
+        return _updateOutflow(_ctx);
     }
-
 
     function afterAgreementUpdated(
         ISuperToken _superToken,
         address _agreementClass,
         bytes32 ,//_agreementId,
-        bytes calldata _agreementData,
+        bytes calldata, //agreementData,
         bytes calldata ,//_cbdata,
         bytes calldata _ctx
-    ) external override onlyExpected(_superToken, _agreementClass)
+    )
+        external override
+        onlyExpected(_superToken, _agreementClass)
         onlyHost
         returns (bytes memory newCtx)
     {
-
-        _tcd.agreementData = _agreementData;
-        _tcd.ctx = _ctx;
-
-        return _updateOutflow(_superToken);
-
+        return _updateOutflow(_ctx);
     }
-
 
     function afterAgreementTerminated(
         ISuperToken _superToken,
         address _agreementClass,
         bytes32 ,//_agreementId,
-        bytes calldata _agreementData,
+        bytes calldata /*_agreementData*/,
         bytes calldata ,//_cbdata,
         bytes calldata _ctx
     )
@@ -235,17 +218,13 @@ contract RedirectAll is SuperAppBase {
         onlyHost
         returns (bytes memory newCtx)
     {
-
-        _tcd.agreementData = _agreementData;
-        _tcd.ctx = _ctx;
-
-        return _deleteOutflow(_superToken);
-
+        // According to the app basic law, we should never revert in a termination callback
+        if (!_isSameToken(_superToken) || !_isCFAv1(_agreementClass)) return _ctx;
+        return _updateOutflow(_ctx);
     }
 
-
-    function _isValidToken(ISuperToken superToken) private view returns (bool) {
-        return _scp.paymentToken == superToken;
+    function _isSameToken(ISuperToken superToken) private view returns (bool) {
+        return address(superToken) == address(_acceptedToken);
     }
 
     function _isCFAv1(address agreementClass) private view returns (bool) {
@@ -254,117 +233,14 @@ contract RedirectAll is SuperAppBase {
     }
 
     modifier onlyHost() {
-        require(msg.sender == address(_scp.host), "RedirectAll: support only one host");
+        require(msg.sender == address(_host), "RedirectAll: support only one host");
         _;
     }
-
 
     modifier onlyExpected(ISuperToken superToken, address agreementClass) {
-        require(_isValidToken(superToken), "RedirectAll: not accepted token");
+        require(_isSameToken(superToken), "RedirectAll: not accepted token");
         require(_isCFAv1(agreementClass), "RedirectAll: only CFAv1 supported");
         _;
-    }
-
-    function _createFlow(
-        address to,
-        int96 flowRate,
-        ISuperToken _superToken,
-        bytes memory ctx
-    ) internal returns (bytes memory newCtx) {
-        (newCtx, ) = _scp.host.callAgreementWithContext(
-            _scp.cfa,
-            abi.encodeWithSelector(
-                _scp.cfa.createFlow.selector,
-                _superToken,
-                to,
-                flowRate,
-                new bytes(0) // placeholder
-            ),
-            "0x",
-            ctx
-        );
-    }
-
-    function _createFlow(address to, int96 flowRate, ISuperToken _superToken) internal {
-       _scp.host.callAgreement(
-           _scp.cfa,
-           abi.encodeWithSelector(
-               _scp.cfa.createFlow.selector,
-               _superToken,
-               to,
-               flowRate,
-               new bytes(0) // placeholder
-           ),
-           "0x"
-       );
-    }
-
-    function _updateFlow(
-        address to,
-        int96 flowRate,
-        ISuperToken _superToken,
-        bytes memory ctx
-    ) internal returns (bytes memory newCtx) {
-        (newCtx, ) = _scp.host.callAgreementWithContext(
-            _scp.cfa,
-            abi.encodeWithSelector(
-                _scp.cfa.updateFlow.selector,
-                _superToken,
-                to,
-                flowRate,
-                new bytes(0) // placeholder
-            ),
-            "0x",
-            ctx
-        );
-    }
-
-    function _updateFlow(address to, int96 flowRate, ISuperToken _superToken) internal {
-        _scp.host.callAgreement(
-            _scp.cfa,
-            abi.encodeWithSelector(
-                _scp.cfa.updateFlow.selector,
-                _superToken,
-                to,
-                flowRate,
-                new bytes(0) // placeholder
-            ),
-            "0x"
-        );
-    }
-
-    function _deleteFlow(
-        address from,
-        address to,
-        ISuperToken _superToken,
-        bytes memory ctx
-    ) internal returns (bytes memory newCtx) {
-        (newCtx, ) = _scp.host.callAgreementWithContext(
-            _scp.cfa,
-            abi.encodeWithSelector(
-                _scp.cfa.deleteFlow.selector,
-                _superToken,
-                from,
-                to,
-                new bytes(0) // placeholder
-            ),
-            "0x",
-            ctx
-        );
-    }
-
-    function _deleteFlow(address from, address to, ISuperToken _superToken) internal {
-        _scp.host.callAgreement(
-            _scp.cfa,
-            abi.encodeWithSelector(
-                _scp.cfa.deleteFlow.selector,
-                _superToken,
-                from,
-                to,
-                new bytes(0) // placeholder
-            ),
-            "0x"
-        );
     }
 
 }
