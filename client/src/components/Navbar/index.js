@@ -1,7 +1,5 @@
 import {ROUTES} from '../../Router';
-import {
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -17,11 +15,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-import {useWallet,  UseWalletProvider } from 'use-wallet'
+import {useWallet } from 'use-wallet'
+import makeBlockie from 'ethereum-blockies-base64';
+// import connect from '@aragon/connect'
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const LOGO = 'QuickLend';
+
 
 const Navbar = () => {
   const wallet = useWallet()
@@ -29,6 +30,9 @@ const Navbar = () => {
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [account, setAccount] = React.useState(null);
+  const [blockie, setBlockie] = React.useState(null);
+  const [balance, setBalance] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -45,8 +49,39 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  React.useEffect(() => {
+    // Initiates the connection to an organization
+
+    async function fetchData() {
+      // You can await here
+      // const org = await connect('quicklend.aragonid.eth', 'thegraph', { network: 4 })
+      // console.log(org)
+      // ...
+    }
+    if(wallet.status == 'connected') {
+      const img = makeBlockie(wallet.account);
+      let acc = wallet.account;
+      acc = acc.slice(0, 7) + '...' + acc.slice(-4)
+      setAccount(acc);
+      setBlockie(img);
+      setBalance(wallet.balance);
+      fetchData();
+    }
+
+  }, [wallet.status]);
+
+
+  const connectWallet = () => {
+    wallet.connect();
+  };
+
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{
+      backgroundColor: '#fff',
+      color: '#000',
+      boxShadow: 'unset',
+      borderBottom: '1px solid rgb(231, 234, 243);'
+    }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
@@ -116,7 +151,7 @@ const Navbar = () => {
 								to={k.path}
                 key={i}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block', textDecoration: 'none' }}
+                sx={{ my: 2, color: 'rgb(96, 105, 124)', display: 'block', textDecoration: 'none' }}
               >
                 {k.title}
               </Button>
@@ -127,13 +162,35 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             {wallet.status === 'connected' ? (
               <div>
-                <div>Account: {wallet.account}</div>
-                <div>Balance: {wallet.balance}</div>
-                <button onClick={() => wallet.reset()}>disconnect</button>
+                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                  <div>
+                    <img src={blockie} style={{width: '24px', height:'24px', borderRadius: '5px', marginRight: '10px'}}/>
+                    <div style={{
+                      position: 'absolute',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '10px',
+                      backgroundColor: 'green',
+                      marginLeft: '17px',
+                      top: '24px',
+                      border: '2px solid #fff'
+                    }}/>
+                  </div>
+                  <div>
+                    <p style={{margin: '0', fontSize: '14px', marginTop:'-5px'}}>{account}</p>
+                    <p style={{margin: '0', fontSize: '10px', color: 'green'}}>Connected to Rinkeby</p>
+                  </div>
+                </Box>
+                {/* <div>Balance: {balance}</div> */}
+                {/* <button onClick={() => wallet.reset()}>disconnect</button> */}
               </div>
             ) : (
               <div>
-                <button onClick={() => wallet.connect()}>Connect Wallet</button>
+                <Button 
+                  sx={{ my: 2, color: '#1A1AFF', border: '1px solid #1A1AFF', display: 'block', textDecoration: 'none' }}
+                  onClick={connectWallet}>
+                    Connect Wallet
+                </Button>
               </div>
             )}
           </Box>
