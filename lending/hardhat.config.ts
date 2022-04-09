@@ -7,6 +7,7 @@ import {HardhatUserConfig} from "hardhat/config";
 import {NetworkUserConfig} from "hardhat/types";
 import {resolve} from "path";
 import "solidity-coverage";
+import "./tasks";
 
 dotenvConfig({path: resolve(__dirname, "./.env")});
 
@@ -37,6 +38,9 @@ const config: HardhatUserConfig = {
     compilers: [
       {
         version: "0.8.13",
+      },
+      {
+        version: "0.8.12",
       },
       {
         version: "0.4.24",

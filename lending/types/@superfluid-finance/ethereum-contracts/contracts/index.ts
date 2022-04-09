@@ -4,5 +4,14 @@
 
 /* eslint-disable */
 import type * as interfaces from "./interfaces";
+import type * as superfluid from "./superfluid";
+import type * as tokens from "./tokens";
+import type * as upgradability from "./upgradability";
 
 export type { interfaces };
+
+export type { superfluid };
+
+export type { tokens };
+
+export type { upgradability };

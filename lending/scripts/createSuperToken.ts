@@ -4,18 +4,17 @@ import CONFIG from "../utils/constants";
 
 async function main(): Promise<void> {
   const config = CONFIG[network.name as keyof typeof CONFIG];
-  const membershipTemplate = await (
-    await ethers.getContractFactory("MembershipTemplate")
-  ).deploy(config.daoFactory, config.ens, config.miniMeFactory, config.IFIFSResolvingRegistrar);
-  const tandaDaoFactory = await (
-    await ethers.getContractFactory("CreateTandaDAO")
-  ).deploy(membershipTemplate.address);
+  const superTokenFactory = (await ethers.getContractFactory("SuperTokenFactory")).attach(
+    config.superTokenFactory
+  );
+
+  const superTokenAddress = await superTokenFactory.callStatic.createSuperTokenLogic(config.host);
+  await superTokenFactory.createSuperTokenLogic(config.host);
 
   writeJsonFile({
     path: `/addresses.${network.name}.json`,
     data: {
-      membershipTemplate: membershipTemplate.address,
-      tandaDaoFactory: tandaDaoFactory.address,
+      token: superTokenAddress,
     },
   });
 }

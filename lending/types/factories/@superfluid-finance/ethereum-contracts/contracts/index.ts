@@ -2,3 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as interfaces from "./interfaces";
+export * as superfluid from "./superfluid";
+export * as tokens from "./tokens";
+export * as upgradability from "./upgradability";

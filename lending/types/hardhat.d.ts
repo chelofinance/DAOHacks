@@ -249,6 +249,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
     getContractFactory(
+      name: "Proxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Proxy__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
@@ -256,6 +260,18 @@ declare module "hardhat/types/runtime" {
       name: "IERC777",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC777__factory>;
+    getContractFactory(
+      name: "IERC777Recipient",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC777Recipient__factory>;
+    getContractFactory(
+      name: "IERC777Sender",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC777Sender__factory>;
+    getContractFactory(
+      name: "IERC1820Registry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC1820Registry__factory>;
     getContractFactory(
       name: "IConstantFlowAgreementV1",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -296,6 +312,38 @@ declare module "hardhat/types/runtime" {
       name: "TokenInfo",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TokenInfo__factory>;
+    getContractFactory(
+      name: "SuperfluidToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperfluidToken__factory>;
+    getContractFactory(
+      name: "SuperToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperToken__factory>;
+    getContractFactory(
+      name: "SuperTokenFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperTokenFactory__factory>;
+    getContractFactory(
+      name: "SuperTokenFactoryBase",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperTokenFactoryBase__factory>;
+    getContractFactory(
+      name: "SuperTokenFactoryHelper",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperTokenFactoryHelper__factory>;
+    getContractFactory(
+      name: "FullUpgradableSuperTokenProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FullUpgradableSuperTokenProxy__factory>;
+    getContractFactory(
+      name: "UUPSProxiable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UUPSProxiable__factory>;
+    getContractFactory(
+      name: "UUPSProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UUPSProxy__factory>;
     getContractFactory(
       name: "CreateTandaDAO",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -609,6 +657,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Ownable>;
     getContractAt(
+      name: "Proxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Proxy>;
+    getContractAt(
       name: "IERC20",
       address: string,
       signer?: ethers.Signer
@@ -618,6 +671,21 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC777>;
+    getContractAt(
+      name: "IERC777Recipient",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC777Recipient>;
+    getContractAt(
+      name: "IERC777Sender",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC777Sender>;
+    getContractAt(
+      name: "IERC1820Registry",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC1820Registry>;
     getContractAt(
       name: "IConstantFlowAgreementV1",
       address: string,
@@ -668,6 +736,46 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.TokenInfo>;
+    getContractAt(
+      name: "SuperfluidToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperfluidToken>;
+    getContractAt(
+      name: "SuperToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperToken>;
+    getContractAt(
+      name: "SuperTokenFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperTokenFactory>;
+    getContractAt(
+      name: "SuperTokenFactoryBase",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperTokenFactoryBase>;
+    getContractAt(
+      name: "SuperTokenFactoryHelper",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperTokenFactoryHelper>;
+    getContractAt(
+      name: "FullUpgradableSuperTokenProxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FullUpgradableSuperTokenProxy>;
+    getContractAt(
+      name: "UUPSProxiable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UUPSProxiable>;
+    getContractAt(
+      name: "UUPSProxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UUPSProxy>;
     getContractAt(
       name: "CreateTandaDAO",
       address: string,
