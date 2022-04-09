@@ -3,9 +3,6 @@
 /* tslint:disable */
 
 /* eslint-disable */
-import type * as apps from "./apps";
 import type * as interfaces from "./interfaces";
-
-export type { apps };
 
 export type { interfaces };

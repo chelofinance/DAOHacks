@@ -13,41 +13,249 @@ import { ethers } from "ethers";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
-      name: "IERC20",
+      name: "Agent",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC20__factory>;
+    ): Promise<Contracts.Agent__factory>;
     getContractFactory(
-      name: "ERC721",
+      name: "SignatureValidator",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC721__factory>;
+    ): Promise<Contracts.SignatureValidator__factory>;
     getContractFactory(
-      name: "IERC721Metadata",
+      name: "ERC1271",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721Metadata__factory>;
+    ): Promise<Contracts.ERC1271__factory>;
     getContractFactory(
-      name: "IERC721",
+      name: "ERC1271Bytes",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721__factory>;
-    getContractFactory(
-      name: "IERC721Receiver",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721Receiver__factory>;
-    getContractFactory(
-      name: "IERC777",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC777__factory>;
-    getContractFactory(
-      name: "ERC165",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC165__factory>;
+    ): Promise<Contracts.ERC1271Bytes__factory>;
     getContractFactory(
       name: "IERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "SuperAppBase",
+      name: "IERC721Receiver",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SuperAppBase__factory>;
+    ): Promise<Contracts.IERC721Receiver__factory>;
+    getContractFactory(
+      name: "Finance",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Finance__factory>;
+    getContractFactory(
+      name: "Payroll",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Payroll__factory>;
+    getContractFactory(
+      name: "ITokenController",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITokenController__factory>;
+    getContractFactory(
+      name: "ApproveAndCallFallBack",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ApproveAndCallFallBack__factory>;
+    getContractFactory(
+      name: "Controlled",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Controlled__factory>;
+    getContractFactory(
+      name: "MiniMeToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MiniMeToken__factory>;
+    getContractFactory(
+      name: "MiniMeTokenFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MiniMeTokenFactory__factory>;
+    getContractFactory(
+      name: "Survey",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Survey__factory>;
+    getContractFactory(
+      name: "TokenManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TokenManager__factory>;
+    getContractFactory(
+      name: "Vault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Vault__factory>;
+    getContractFactory(
+      name: "Voting",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Voting__factory>;
+    getContractFactory(
+      name: "IPublicResolver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IPublicResolver__factory>;
+    getContractFactory(
+      name: "IFIFSResolvingRegistrar",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IFIFSResolvingRegistrar__factory>;
+    getContractFactory(
+      name: "ACL",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ACL__factory>;
+    getContractFactory(
+      name: "IACL",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IACL__factory>;
+    getContractFactory(
+      name: "IACLOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IACLOracle__factory>;
+    getContractFactory(
+      name: "Repo",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Repo__factory>;
+    getContractFactory(
+      name: "AppProxyBase",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AppProxyBase__factory>;
+    getContractFactory(
+      name: "AppProxyPinned",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AppProxyPinned__factory>;
+    getContractFactory(
+      name: "AppProxyUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AppProxyUpgradeable__factory>;
+    getContractFactory(
+      name: "AppStorage",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AppStorage__factory>;
+    getContractFactory(
+      name: "AragonApp",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AragonApp__factory>;
+    getContractFactory(
+      name: "Autopetrified",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Autopetrified__factory>;
+    getContractFactory(
+      name: "DelegateProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DelegateProxy__factory>;
+    getContractFactory(
+      name: "DepositableDelegateProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DepositableDelegateProxy__factory>;
+    getContractFactory(
+      name: "DepositableStorage",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DepositableStorage__factory>;
+    getContractFactory(
+      name: "IForwarder",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IForwarder__factory>;
+    getContractFactory(
+      name: "Initializable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
+      name: "IVaultRecoverable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IVaultRecoverable__factory>;
+    getContractFactory(
+      name: "Petrifiable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Petrifiable__factory>;
+    getContractFactory(
+      name: "VaultRecoverable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.VaultRecoverable__factory>;
+    getContractFactory(
+      name: "EVMScriptRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EVMScriptRegistry__factory>;
+    getContractFactory(
+      name: "EVMScriptRunner",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EVMScriptRunner__factory>;
+    getContractFactory(
+      name: "BaseEVMScriptExecutor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BaseEVMScriptExecutor__factory>;
+    getContractFactory(
+      name: "CallsScript",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.CallsScript__factory>;
+    getContractFactory(
+      name: "IEVMScriptExecutor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IEVMScriptExecutor__factory>;
+    getContractFactory(
+      name: "IEVMScriptRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IEVMScriptRegistry__factory>;
+    getContractFactory(
+      name: "AppProxyFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AppProxyFactory__factory>;
+    getContractFactory(
+      name: "DAOFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DAOFactory__factory>;
+    getContractFactory(
+      name: "EVMScriptRegistryFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EVMScriptRegistryFactory__factory>;
+    getContractFactory(
+      name: "IKernel",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IKernel__factory>;
+    getContractFactory(
+      name: "IKernelEvents",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IKernelEvents__factory>;
+    getContractFactory(
+      name: "Kernel",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Kernel__factory>;
+    getContractFactory(
+      name: "KernelProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.KernelProxy__factory>;
+    getContractFactory(
+      name: "KernelStorage",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.KernelStorage__factory>;
+    getContractFactory(
+      name: "AbstractENS",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AbstractENS__factory>;
+    getContractFactory(
+      name: "ENS",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ENS__factory>;
+    getContractFactory(
+      name: "PublicResolver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PublicResolver__factory>;
+    getContractFactory(
+      name: "ERCProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERCProxy__factory>;
+    getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "IFeed",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IFeed__factory>;
+    getContractFactory(
+      name: "BaseTemplate",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BaseTemplate__factory>;
+    getContractFactory(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
+      name: "IERC777",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC777__factory>;
     getContractFactory(
       name: "IConstantFlowAgreementV1",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -89,59 +297,327 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TokenInfo__factory>;
     getContractFactory(
-      name: "RedirectAll",
+      name: "CreateTandaDAO",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.RedirectAll__factory>;
+    ): Promise<Contracts.CreateTandaDAO__factory>;
     getContractFactory(
-      name: "TradeableCashflow",
+      name: "IMembershipTemplate",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TradeableCashflow__factory>;
+    ): Promise<Contracts.IMembershipTemplate__factory>;
+    getContractFactory(
+      name: "MembershipTemplate",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MembershipTemplate__factory>;
+    getContractFactory(
+      name: "Tanda",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Tanda__factory>;
 
     getContractAt(
-      name: "IERC20",
+      name: "Agent",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IERC20>;
+    ): Promise<Contracts.Agent>;
     getContractAt(
-      name: "ERC721",
+      name: "SignatureValidator",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ERC721>;
+    ): Promise<Contracts.SignatureValidator>;
     getContractAt(
-      name: "IERC721Metadata",
+      name: "ERC1271",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IERC721Metadata>;
+    ): Promise<Contracts.ERC1271>;
     getContractAt(
-      name: "IERC721",
+      name: "ERC1271Bytes",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IERC721>;
-    getContractAt(
-      name: "IERC721Receiver",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC721Receiver>;
-    getContractAt(
-      name: "IERC777",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC777>;
-    getContractAt(
-      name: "ERC165",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC165>;
+    ): Promise<Contracts.ERC1271Bytes>;
     getContractAt(
       name: "IERC165",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "SuperAppBase",
+      name: "IERC721Receiver",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.SuperAppBase>;
+    ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
+      name: "Finance",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Finance>;
+    getContractAt(
+      name: "Payroll",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Payroll>;
+    getContractAt(
+      name: "ITokenController",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITokenController>;
+    getContractAt(
+      name: "ApproveAndCallFallBack",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ApproveAndCallFallBack>;
+    getContractAt(
+      name: "Controlled",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Controlled>;
+    getContractAt(
+      name: "MiniMeToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MiniMeToken>;
+    getContractAt(
+      name: "MiniMeTokenFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MiniMeTokenFactory>;
+    getContractAt(
+      name: "Survey",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Survey>;
+    getContractAt(
+      name: "TokenManager",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TokenManager>;
+    getContractAt(
+      name: "Vault",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Vault>;
+    getContractAt(
+      name: "Voting",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Voting>;
+    getContractAt(
+      name: "IPublicResolver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IPublicResolver>;
+    getContractAt(
+      name: "IFIFSResolvingRegistrar",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IFIFSResolvingRegistrar>;
+    getContractAt(
+      name: "ACL",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ACL>;
+    getContractAt(
+      name: "IACL",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IACL>;
+    getContractAt(
+      name: "IACLOracle",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IACLOracle>;
+    getContractAt(
+      name: "Repo",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Repo>;
+    getContractAt(
+      name: "AppProxyBase",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AppProxyBase>;
+    getContractAt(
+      name: "AppProxyPinned",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AppProxyPinned>;
+    getContractAt(
+      name: "AppProxyUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AppProxyUpgradeable>;
+    getContractAt(
+      name: "AppStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AppStorage>;
+    getContractAt(
+      name: "AragonApp",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AragonApp>;
+    getContractAt(
+      name: "Autopetrified",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Autopetrified>;
+    getContractAt(
+      name: "DelegateProxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DelegateProxy>;
+    getContractAt(
+      name: "DepositableDelegateProxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DepositableDelegateProxy>;
+    getContractAt(
+      name: "DepositableStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DepositableStorage>;
+    getContractAt(
+      name: "IForwarder",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IForwarder>;
+    getContractAt(
+      name: "Initializable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Initializable>;
+    getContractAt(
+      name: "IVaultRecoverable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IVaultRecoverable>;
+    getContractAt(
+      name: "Petrifiable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Petrifiable>;
+    getContractAt(
+      name: "VaultRecoverable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.VaultRecoverable>;
+    getContractAt(
+      name: "EVMScriptRegistry",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EVMScriptRegistry>;
+    getContractAt(
+      name: "EVMScriptRunner",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EVMScriptRunner>;
+    getContractAt(
+      name: "BaseEVMScriptExecutor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BaseEVMScriptExecutor>;
+    getContractAt(
+      name: "CallsScript",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.CallsScript>;
+    getContractAt(
+      name: "IEVMScriptExecutor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IEVMScriptExecutor>;
+    getContractAt(
+      name: "IEVMScriptRegistry",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IEVMScriptRegistry>;
+    getContractAt(
+      name: "AppProxyFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AppProxyFactory>;
+    getContractAt(
+      name: "DAOFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DAOFactory>;
+    getContractAt(
+      name: "EVMScriptRegistryFactory",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EVMScriptRegistryFactory>;
+    getContractAt(
+      name: "IKernel",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IKernel>;
+    getContractAt(
+      name: "IKernelEvents",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IKernelEvents>;
+    getContractAt(
+      name: "Kernel",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Kernel>;
+    getContractAt(
+      name: "KernelProxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.KernelProxy>;
+    getContractAt(
+      name: "KernelStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.KernelStorage>;
+    getContractAt(
+      name: "AbstractENS",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AbstractENS>;
+    getContractAt(
+      name: "ENS",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ENS>;
+    getContractAt(
+      name: "PublicResolver",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PublicResolver>;
+    getContractAt(
+      name: "ERCProxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERCProxy>;
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "IFeed",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IFeed>;
+    getContractAt(
+      name: "BaseTemplate",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BaseTemplate>;
+    getContractAt(
+      name: "Ownable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "IERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "IERC777",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC777>;
     getContractAt(
       name: "IConstantFlowAgreementV1",
       address: string,
@@ -193,15 +669,25 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.TokenInfo>;
     getContractAt(
-      name: "RedirectAll",
+      name: "CreateTandaDAO",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.RedirectAll>;
+    ): Promise<Contracts.CreateTandaDAO>;
     getContractAt(
-      name: "TradeableCashflow",
+      name: "IMembershipTemplate",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.TradeableCashflow>;
+    ): Promise<Contracts.IMembershipTemplate>;
+    getContractAt(
+      name: "MembershipTemplate",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MembershipTemplate>;
+    getContractAt(
+      name: "Tanda",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Tanda>;
 
     // default types
     getContractFactory(

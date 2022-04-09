@@ -3,7 +3,9 @@
 /* tslint:disable */
 
 /* eslint-disable */
-import type * as superFluidAppSol from "./SuperFluidApp.sol";
+import type * as interfaces from "./interfaces";
 
-export type { superFluidAppSol };
-export type { RedirectAll } from "./RedirectAll";
+export type { interfaces };
+export type { CreateTandaDAO } from "./CreateTandaDAO";
+export type { MembershipTemplate } from "./MembershipTemplate";
+export type { Tanda } from "./Tanda";
