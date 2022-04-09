@@ -172,7 +172,7 @@ const Navbar = () => {
                       borderRadius: '10px',
                       backgroundColor: 'green',
                       marginLeft: '17px',
-                      top: '24px',
+                      top: '34px',
                       border: '2px solid #fff'
                     }}/>
                   </div>
