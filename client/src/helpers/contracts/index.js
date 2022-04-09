@@ -1,4 +1,4 @@
-import {getWeb3} from "@helpers/index";
+import {getWeb3} from "../index";
 import Mock20 from "./Mock20.json";
 
 export const Contracts = {

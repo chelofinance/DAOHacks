@@ -232,7 +232,7 @@ export const getDaoMembers = async (args) => {
     })
     .slice(0, 10);
 
-  return mainHolders.filter(({account}) => toBN(account).toString() != "0");
+  return mainHolders.filter(({account}) => toBN(account).toString() !== "0");
 };
 
 export const isEnsDomain = async (args) => {
