@@ -85,6 +85,7 @@
   },
   "dependencies": {
     "@aragon/templates-shared": "^1.0.1",
-    "@superfluid-finance/ethereum-contracts": "^1.1.1"
+    "@superfluid-finance/ethereum-contracts": "^1.1.1",
+    "app-root-path": "^3.0.0"
   }
 }
