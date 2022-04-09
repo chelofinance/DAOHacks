@@ -2,6 +2,9 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Navbar from "../../components/Navbar";
+import { getWeb3 } from "../../helpers";
+import { createWrapper, setWrapper } from "../../helpers/aragon";
+import { getNetworkConfig } from "../../helpers/network";
 
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
@@ -16,14 +19,34 @@ const CARDS = [
 ];
 
 const Home = () => {
+
+	const connectWrapper = async () => {
+		const web3 = getWeb3();
+		const dao = "quicklend"; //dao name
+		const curNetwork = getNetworkConfig("rinkeby"); //network config
+		const wrapper = setWrapper(
+			await createWrapper(`${dao}.aragonid.eth`, curNetwork.addresses.ensRegistry, {
+				ipfsConf: curNetwork.apm.ipfs,
+				provider: getWeb3(curNetwork.nodes.defaultEth).currentProvider,
+				accounts: await web3.eth.getAccounts(),
+			})
+		);
+		console.log({ wrapper });
+	};
+
+	React.useState(() => {
+		connectWrapper();
+	}, []);
+
+
 	return (
 		<>
-			<Navbar/>
-			<Container maxWidth="lg" className='home' sx={{ marginTop: '10px'}}>
+			<Navbar />
+			<Container maxWidth="lg" className='home' sx={{ marginTop: '10px' }}>
 				{/* data boxes */}
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
 					{CARDS.map((k, i) => (
-						<Card key={i} variant="outlined" sx={{ width: '250px'}}>{card(k)}</Card>
+						<Card key={i} variant="outlined" sx={{ width: '250px' }}>{card(k)}</Card>
 					))}
 				</Box>
 
@@ -32,7 +55,7 @@ const Home = () => {
 				<Typography variant="h2" sx={{ fontSize: 30, fontFamily: 'Readex Pro', marginTop: '50px', marginBottom: '30px' }} color="#000" gutterBottom>
 					QuickLend Lending Marketplace
 				</Typography>
-				
+
 				<LendingMarketplace />
 
 			</Container>
