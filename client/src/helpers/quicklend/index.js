@@ -23,9 +23,8 @@ export const createTandaDAO = async (args) => {
 };
 
 export const whitelistMember = async (args) => {
-  const {agent, member, tanda, network} = args;
+  const {agent, member, tanda, wrapper} = args;
   const web3 = getWeb3();
-  const wrapper = getWrapper();
   const callData = encodeActCall("toggleMember(address,bool)", [member, true]);
 
   const {transactionPath} = await exec({
@@ -35,6 +34,7 @@ export const whitelistMember = async (args) => {
     wrapper,
   });
 
+  console.log("whitelist");
   await web3.eth.sendTransaction(transactionPath);
   console.log("SUCCESS");
 };

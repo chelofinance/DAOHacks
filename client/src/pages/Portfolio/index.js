@@ -40,13 +40,14 @@ const Portfolio = () => {
 		const tandaFactory = getContract("CreateTandaDAO", curNetwork.addresses.tandaDaoFactory);
 		const tanda = await tandaFactory.methods
 			.daoToTanda(daoName)
-			.send({from: window.ethereum.selectedAddress});
+			.call({from: window.ethereum.selectedAddress});
 		console.log(tanda);
-		//await whitelistMember({
-		//agent: agent.proxyAddress,
-		//member,
-		//tanda,
-		//});
+		await whitelistMember({
+			agent: agent.proxyAddress,
+			member,
+			tanda,
+			wrapper,
+		});
 	};
 
 	return (
