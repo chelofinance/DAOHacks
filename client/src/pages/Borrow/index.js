@@ -183,7 +183,10 @@ const Step3 = ({ orgTemplate, selectOrgTemplate, selectStep }) => {
 const Step4 = ({ setTokenDetails, selectStep }) => {
 	const [tokenName, setTokenName] = useState('');
 	const [tokenSymbol, setTokenSymbol] = useState('');
-	const [tokenHolders, setTokenHolders] = useState(['']);
+	const [support, setSupport] = useState(10);
+	const [quorum, setQuorum] = useState(10);
+	const [duration, setDuration] = useState(1);
+	const [tokenHolders, setTokenHolders] = useState(["0xB9602f2442da97651D5f7e0435a4733b1a1145cD"]);
 
 	const updateTokenHolders = (e, i) => {
 		const holders = [...tokenHolders];
@@ -199,7 +202,10 @@ const Step4 = ({ setTokenDetails, selectStep }) => {
 		setTokenDetails({
 			tokenName,
 			tokenSymbol,
-			tokenHolders
+			tokenHolders,
+			support,
+			quorum,
+			duration
 		});
 	}, [tokenName, tokenSymbol, tokenHolders]);
 
@@ -228,6 +234,39 @@ const Step4 = ({ setTokenDetails, selectStep }) => {
 								sx={{ color: '#fff' }}
 								value={tokenSymbol}
 								onChange={(e) => { setTokenSymbol(e.target.value) }}
+							/>
+						</FormControl>
+					</Box>
+
+					<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+						<FormControl fullWidth sx={{ m: 1 }} variant="filled">
+							<InputLabel sx={{ color: '#fff' }}>SUPPORT</InputLabel>
+							<Input
+								sx={{ color: '#fff' }}
+								value={support}
+								onChange={(e) => { setSupport(e.target.value) }}
+							/>
+						</FormControl>
+					</Box>
+
+					<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+						<FormControl fullWidth sx={{ m: 1 }} variant="filled">
+							<InputLabel sx={{ color: '#fff' }}>QUORUM</InputLabel>
+							<Input
+								sx={{ color: '#fff' }}
+								value={quorum}
+								onChange={(e) => { setQuorum(e.target.value) }}
+							/>
+						</FormControl>
+					</Box>
+
+					<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+						<FormControl fullWidth sx={{ m: 1 }} variant="filled">
+							<InputLabel sx={{ color: '#fff' }}>DURATION</InputLabel>
+							<Input
+								sx={{ color: '#fff' }}
+								value={duration}
+								onChange={(e) => { setDuration(e.target.value) }}
 							/>
 						</FormControl>
 					</Box>
@@ -323,9 +362,12 @@ const Borrow = () => {
 				dao: orgName,
 				// members: ["0xB9602f2442da97651D5f7e0435a4733b1a1145cD"], //first members
 				members: details.tokenHolders,
-				support: 10, //support in %
-				quorum: 10, //quorum in %
-				duration: 1, //duration in hours (of voting)
+				support: +details.support, //support in %
+				quorum: +details.quorum, //quorum in %
+				duration: +details.duration, //duration in hours (of voting)
+				// support: 10, //support in %
+				// quorum: 10, //quorum in %
+				// duration: 1, //duration in hours (of voting)
 			});
 		}
 	}, [step]);
