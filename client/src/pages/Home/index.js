@@ -9,8 +9,10 @@ import { getNetworkConfig } from "../../helpers/network";
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 
-import { card } from '../../components/InfoCard';
-import LendingMarketplace from '../../components/LendingMarketplace';
+import { InfoCard } from '../../components/InfoCard';
+import LendingMarketplace from '../../components/LendingMarketPlace';
+
+import './index.scss'
 
 const CARDS = [
 	{ title: 'Total Value Locked', value: '525.77M USD', desc: `Market value of all assets in the lending pools and the market value of QuickLend tokens staked in the protocol` },
@@ -44,19 +46,15 @@ const Home = () => {
 			<Navbar />
 			<Container maxWidth="lg" className='home' sx={{ marginTop: '10px', position: 'relative' }}>
 				{/* data boxes */}
-				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+				<Box className='card-container' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
 					{CARDS.map((k, i) => (
-						<Card key={i} variant="outlined" sx={{ width: '250px' }}>{card(k)}</Card>
+						<InfoCard key={i} {...k}/>
 					))}
 				</Box>
 
 				{/* Lending Marketplace */}
 
-				<Typography variant="h2" sx={{ fontSize: 30, fontFamily: 'Readex Pro', marginTop: '50px', marginBottom: '30px' }} color="#000" gutterBottom>
-					QuickLend Lending Marketplace
-				</Typography>
-
-				<LendingMarketplace />
+				<LendingMarketplace title="QuickLend Lending Marketplace" />
 
 			</Container>
 		</>
