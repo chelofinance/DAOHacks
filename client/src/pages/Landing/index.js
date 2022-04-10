@@ -55,14 +55,20 @@ const Landing = () => {
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
 			{/* <img src={landing} style={imgStyle}/> */}
-			<Box sx={{display: 'flex', flexDirection: 'column', position: 'absolute', paddingLeft: '50px'}}>
-				<h3 style={{ marginBottom: '0px', textAlign: 'right'}}>
-					<span className="heading heading-white">Use</span>
-					<span className='gradient-text heading heading-logo'>QuickLend</span>
-				</h3>
-				<h3 className='heading heading-white' style={{ marginTop: '-30px'}}>Go bankless.</h3>
-				<p className='desc1'>Decentralized Credit Lending Protocol for DAOs </p>
-				<p className='desc2'>powered by Tanda model credit rating</p>
+			<Box sx={{ display: 'flex', flexDirection: 'column', position: 'absolute', paddingLeft: '50px' }}>
+				<div style={{backgroundColor: 'rgba(0,0,0, 0.3)', padding: '20px', marginLeft: '-50px', paddingLeft: '50px'}}>
+					<h3 style={{ marginBottom: '0px', textAlign: 'right'}}>
+						<span className="heading heading-white">Use</span>
+						<span className='gradient-text heading heading-logo'>QuickLend</span>
+					</h3>
+					<h3 className='heading heading-white' style={{ marginTop: '-50px' }}>
+						<span>Go bankless.</span>
+					</h3>
+				</div>
+				<div style={{backgroundColor: 'rgba(0,0,0, 0.3)', padding: '20px', marginLeft: '-50px', paddingLeft: '50px', marginTop: '20px'}}>
+					<p className='desc1'>Decentralized Credit Lending Protocol for DAOs </p>
+					<p className='desc2'>powered by Tanda model credit rating</p>
+				</div>
 			</Box>
 			<Button onClick={onClick} sx={btnStyle} className="goto-btn">
 				<span className='gradient-text'>Go to dApp</span>
