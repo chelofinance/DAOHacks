@@ -11,12 +11,12 @@ export const ROUTES = [
 		exact: true,
 		path: '/home'
 	},
-	// {
-	// 	title: 'Lend',
-	// 	component: Lend,
-	// 	exact: true,
-	// 	path: '/lend'
-	// },
+	{
+		title: 'Lend',
+		component: Lend,
+		exact: true,
+		path: '/lend'
+	},
 	{
 		title: 'Create a DAO',
 		component: Borrow,
