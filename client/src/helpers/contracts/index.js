@@ -1,8 +1,10 @@
 import {getWeb3} from "../index";
 import Mock20 from "./Mock20.json";
+import CreateTandaDAO from "./CreateTandaDAO.json";
 
 export const Contracts = {
   Mock20,
+  CreateTandaDAO,
 };
 
 export const getContract = (constructor, address) => {

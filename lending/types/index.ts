@@ -136,6 +136,8 @@ export type { Ownable } from "./@openzeppelin/contracts/access/Ownable";
 export { Ownable__factory } from "./factories/@openzeppelin/contracts/access/Ownable__factory";
 export type { Proxy } from "./@openzeppelin/contracts/proxy/Proxy";
 export { Proxy__factory } from "./factories/@openzeppelin/contracts/proxy/Proxy__factory";
+export type { IERC20Metadata } from "./@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata";
+export { IERC20Metadata__factory } from "./factories/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata__factory";
 export type { IERC20 } from "./@openzeppelin/contracts/token/ERC20/IERC20";
 export { IERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/IERC20__factory";
 export type { IERC777 } from "./@openzeppelin/contracts/token/ERC777/IERC777";
@@ -188,5 +190,9 @@ export type { IMembershipTemplate } from "./contracts/interfaces/IMembershipTemp
 export { IMembershipTemplate__factory } from "./factories/contracts/interfaces/IMembershipTemplate__factory";
 export type { MembershipTemplate } from "./contracts/MembershipTemplate";
 export { MembershipTemplate__factory } from "./factories/contracts/MembershipTemplate__factory";
+export type { MockToken } from "./contracts/MockToken";
+export { MockToken__factory } from "./factories/contracts/MockToken__factory";
+export type { SimpleTokenFactory } from "./contracts/SuperTokenFactory.sol/SimpleTokenFactory";
+export { SimpleTokenFactory__factory } from "./factories/contracts/SuperTokenFactory.sol/SimpleTokenFactory__factory";
 export type { Tanda } from "./contracts/Tanda";
 export { Tanda__factory } from "./factories/contracts/Tanda__factory";

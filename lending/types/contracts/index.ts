@@ -3,9 +3,13 @@
 /* tslint:disable */
 
 /* eslint-disable */
+import type * as superTokenFactorySol from "./SuperTokenFactory.sol";
 import type * as interfaces from "./interfaces";
+
+export type { superTokenFactorySol };
 
 export type { interfaces };
 export type { CreateTandaDAO } from "./CreateTandaDAO";
 export type { MembershipTemplate } from "./MembershipTemplate";
+export type { MockToken } from "./MockToken";
 export type { Tanda } from "./Tanda";

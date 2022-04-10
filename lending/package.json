@@ -92,6 +92,7 @@
     "@superfluid-finance/ethereum-contracts": "^1.1.1",
     "@superfluid-finance/sdk-core": "^0.3.2",
     "app-root-path": "^3.0.0",
+    "graphql": "^16.3.0",
     "web3": "^1.7.3"
   }
 }

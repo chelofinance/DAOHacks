@@ -4,17 +4,24 @@ import CONFIG from "../utils/constants";
 
 async function main(): Promise<void> {
   const config = CONFIG[network.name as keyof typeof CONFIG];
-  const superTokenFactory = (await ethers.getContractFactory("SuperTokenFactory")).attach(
+  const token = await (await ethers.getContractFactory("MockToken")).deploy();
+  const superTokenFactory = (await ethers.getContractFactory("SimpleTokenFactory")).attach(
     config.superTokenFactory
   );
 
-  const superTokenAddress = await superTokenFactory.callStatic.createSuperTokenLogic(config.host);
-  await superTokenFactory.createSuperTokenLogic(config.host);
+  //const superTokenAddress = await superTokenFactory.callStatic.createERC20Wrapper(
+  //token.address,
+  //1,
+  //"Super mock",
+  //"SMT"
+  //);
+  //await superTokenFactory.createERC20Wrapper(token.address, 1, "Super mock", "SMT");
 
   writeJsonFile({
     path: `/addresses.${network.name}.json`,
     data: {
-      token: superTokenAddress,
+      token: token.address,
+      //superToken: superTokenAddress,
     },
   });
 }
