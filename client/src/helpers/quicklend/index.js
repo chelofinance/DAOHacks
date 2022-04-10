@@ -16,7 +16,7 @@ export const createTandaDAO = async (args) => {
       addresses.cfa,
       addresses.token
     )
-    .send({from: (window as any).ethereum.selectedAddress});
+    .send({from: window.ethereum.selectedAddress});
 
   console.log("SUCCESS");
 };
