@@ -3,6 +3,8 @@ import Button from '@mui/material/Button';
 import landing from '../../assets/img/landing-bk.png'
 import { useNavigate } from "react-router-dom";
 
+import './index.scss';
+
 const headingStyle = {
 	fontFamily: 'Readex Pro',
 	fontWeight: 600,
@@ -16,19 +18,21 @@ const descStyle = {
 	fontWeight: 400,
 	fontSize: '24px',
 	margin: 0,
-	marginLeft: '100px'
+	marginLeft: '100px',
+	color: '#fff'
 };
 
 const btnStyle = {
 	display: 'flex',
 	position: 'absolute',
-	backgroundColor: '#FCDDEC',
+	backgroundColor: '#000',
 	borderRadius: '100px',
 	padding: '20px',
 	fontFamily: 'Readex Pro',
-	fontWeight: 600,
-	fontSize: '18px',
-	color: '#8247E5',
+	fontWeight: 700,
+	fontStyle: 'normal',
+	lineHeight: '24px',
+	fontSize: '25px',
 	width: '277px',
 	height: '69px',
 	right: '100px'
@@ -51,13 +55,18 @@ const Landing = () => {
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
 			{/* <img src={landing} style={imgStyle}/> */}
-			<Box sx={{display: 'flex', flexDirection: 'column', position: 'absolute'}}>
-				<h3 style={headingStyle}>Use Quicklend.</h3>
-				<h3 style={headingStyle}>Go bankless.</h3>
-				<p style={descStyle}>Own your content.</p>
-				<p style={descStyle}>Login with Web3, get paid and use decentralized storage.</p>
+			<Box sx={{display: 'flex', flexDirection: 'column', position: 'absolute', paddingLeft: '50px'}}>
+				<h3 style={{ marginBottom: '0px', textAlign: 'right'}}>
+					<span className="heading heading-white">Use</span>
+					<span className='gradient-text heading heading-logo'>QuickLend</span>
+				</h3>
+				<h3 className='heading heading-white' style={{ marginTop: '-30px'}}>Go bankless.</h3>
+				<p className='desc1'>Decentralized Credit Lending Protocol for DAOs </p>
+				<p className='desc2'>powered by Tanda model credit rating</p>
 			</Box>
-			<Button onClick={onClick} sx={btnStyle}>Enter QuickLend</Button>
+			<Button onClick={onClick} sx={btnStyle} className="goto-btn">
+				<span className='gradient-text'>Go to dApp</span>
+			</Button>
 		</div>
 	);
 };

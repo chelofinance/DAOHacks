@@ -42,7 +42,7 @@ const Home = () => {
 	return (
 		<>
 			<Navbar />
-			<Container maxWidth="lg" className='home' sx={{ marginTop: '10px' }}>
+			<Container maxWidth="lg" className='home' sx={{ marginTop: '10px', position: 'relative' }}>
 				{/* data boxes */}
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
 					{CARDS.map((k, i) => (

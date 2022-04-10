@@ -1,0 +1,50 @@
+.heading-white {
+	color: #fff;
+}
+
+.heading {
+	font-family: 'Readex Pro';
+	font-weight: 600;
+	font-size: 68px;
+	margin: 0;
+	margin-left: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-align: right;
+}
+
+.heading-logo {
+	font-size: 100px;
+}
+
+.desc1 {
+	font-family: 'Readex Pro';
+	font-style: normal;
+	font-weight: 500;
+	font-size: 30px;
+	line-height: 160%;
+	letter-spacing: -0.04em;
+	margin: 0;
+	// margin-left: 100px;
+	color: rgba(255, 255, 255, 0.8);
+	text-align: right;
+}
+
+.desc2 {
+	font-family: 'Red Hat Mono';
+	font-style: italic;
+	font-weight: 400;
+	font-size: 29px;
+	line-height: 140%;
+	letter-spacing: -0.04em;
+	margin: 0;
+	// margin-left: 100px;
+	color: rgba(255, 255, 255, 0.8);
+	text-align: right;
+}
+
+.goto-btn {
+	&:hover {
+		background-color:rgba(0,0,0,0.5) !important;
+	}
+}

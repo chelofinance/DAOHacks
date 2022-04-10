@@ -15,4 +15,11 @@ code {
     monospace;
 }
 
+#root {
+  position: relative;
+}
+
+.gradient-text {
+  @include text-color-gradient;
+}
 
