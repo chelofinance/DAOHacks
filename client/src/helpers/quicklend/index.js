@@ -1,4 +1,5 @@
 import {getWeb3} from "../index";
+import {getWrapper, encodeActCall, exec} from "../aragon";
 import {getNetworkConfig} from "../network";
 import {getContract} from "../contracts";
 
@@ -18,5 +19,22 @@ export const createTandaDAO = async (args) => {
     )
     .send({from: window.ethereum.selectedAddress});
 
+  console.log("SUCCESS");
+};
+
+export const whitelistMember = async (args) => {
+  const {agent, member, tanda, network} = args;
+  const web3 = getWeb3();
+  const wrapper = getWrapper();
+  const callData = encodeActCall("toggleMember(address,bool)", [member, true]);
+
+  const {transactionPath} = await exec({
+    app: agent,
+    method: "execute",
+    params: [tanda, 0, callData],
+    wrapper,
+  });
+
+  await web3.eth.sendTransaction(transactionPath);
   console.log("SUCCESS");
 };

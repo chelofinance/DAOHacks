@@ -17,6 +17,8 @@ import "./Tanda.sol";
 
 contract CreateTandaDAO { 
     IMembershipTemplate public template;
+    mapping(string=>address) public daoToTanda;
+
     event TandaDAOCreated(string id,address tanda);
 
     constructor(
@@ -47,6 +49,8 @@ contract CreateTandaDAO {
             tanda.toggleMember(_members[i],true);
         tanda.transferOwnership(agent);
 
+        daoToTanda[_id] = address(tanda);
         emit TandaDAOCreated(_id,address(tanda));
     }
+    
 } 

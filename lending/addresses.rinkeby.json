@@ -1,6 +1,6 @@
 {
-  "membershipTemplate": "0xA550394a053D70Ec4FD6811790601A190fB8b42d",
-  "tandaDaoFactory": "0x542Df0E0c8a207d6DbfEa0bE7b75e1d424fcb51F",
+  "membershipTemplate": "0x65f78cA3eBb85339d9042553eb7746d32872d363",
+  "tandaDaoFactory": "0xed5B3efd13D568eCa18E60f45A0b2b738C3FaD7D",
   "token": "0xB498a3879a829e9aB436DCe5EF0a00411db59913",
   "superToken": "0xb1e93fc541136649c84f2a7536cbf68c499d8bc0"
 }

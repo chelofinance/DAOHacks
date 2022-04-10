@@ -2,14 +2,14 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Navbar from "../../components/Navbar";
-import { getWeb3 } from "../../helpers";
-import { createWrapper, setWrapper, getApps } from "../../helpers/aragon";
-import { getNetworkConfig } from "../../helpers/network";
+import {getWeb3} from "../../helpers";
+import {createWrapper, setWrapper, getApps} from "../../helpers/aragon";
+import {getNetworkConfig} from "../../helpers/network";
 
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 
-import { InfoCard } from "../../components/InfoCard";
+import {InfoCard} from "../../components/InfoCard";
 import LendingMarketplace from "../../components/LendingMarketPlace";
 
 import "./index.scss";
@@ -33,32 +33,14 @@ const CARDS = [
 ];
 
 const Home = () => {
-	const connectWrapper = async () => {
-		const web3 = getWeb3();
-		const dao = "quicklend"; //dao name
-		const curNetwork = getNetworkConfig("rinkeby"); //network config
-		const wrapper = await createWrapper(`${dao}.aragonid.eth`, curNetwork.addresses.ensRegistry, {
-			ipfsConf: curNetwork.apm.ipfs,
-			provider: getWeb3(curNetwork.nodes.defaultEth).currentProvider,
-			accounts: await web3.eth.getAccounts(),
-		});
-		setWrapper(wrapper);
-		console.log("GET APPS", wrapper);
-		console.log({ apps: await getApps(wrapper) });
-	};
-
-	React.useState(() => {
-		connectWrapper();
-	}, []);
-
 	return (
 		<>
 			<Navbar />
-			<Container maxWidth="lg" className="home" sx={{ marginTop: "10px", position: "relative" }}>
+			<Container maxWidth="lg" className="home" sx={{marginTop: "10px", position: "relative"}}>
 				{/* data boxes */}
 				<Box
 					className="card-container"
-					sx={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}
+					sx={{display: "flex", flexDirection: "row", justifyContent: "space-around"}}
 				>
 					{CARDS.map((k, i) => (
 						<InfoCard key={i} {...k} />

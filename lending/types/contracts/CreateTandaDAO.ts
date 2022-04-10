@@ -31,11 +31,12 @@ import type {
 export interface CreateTandaDAOInterface extends utils.Interface {
   functions: {
     "createTandaDAO(string,address[],uint64[3],address,address,address)": FunctionFragment;
+    "daoToTanda(string)": FunctionFragment;
     "template()": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "createTandaDAO" | "template"
+    nameOrSignatureOrTopic: "createTandaDAO" | "daoToTanda" | "template"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -49,12 +50,14 @@ export interface CreateTandaDAOInterface extends utils.Interface {
       string
     ]
   ): string;
+  encodeFunctionData(functionFragment: "daoToTanda", values: [string]): string;
   encodeFunctionData(functionFragment: "template", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "createTandaDAO",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "daoToTanda", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "template", data: BytesLike): Result;
 
   events: {
@@ -112,6 +115,8 @@ export interface CreateTandaDAO extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    daoToTanda(arg0: string, overrides?: CallOverrides): Promise<[string]>;
+
     template(overrides?: CallOverrides): Promise<[string]>;
   };
 
@@ -125,6 +130,8 @@ export interface CreateTandaDAO extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  daoToTanda(arg0: string, overrides?: CallOverrides): Promise<string>;
+
   template(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
@@ -137,6 +144,8 @@ export interface CreateTandaDAO extends BaseContract {
       acceptedToken: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    daoToTanda(arg0: string, overrides?: CallOverrides): Promise<string>;
 
     template(overrides?: CallOverrides): Promise<string>;
   };
@@ -160,6 +169,8 @@ export interface CreateTandaDAO extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    daoToTanda(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
     template(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
@@ -172,6 +183,11 @@ export interface CreateTandaDAO extends BaseContract {
       cfa: string,
       acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    daoToTanda(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     template(overrides?: CallOverrides): Promise<PopulatedTransaction>;
