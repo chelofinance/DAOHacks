@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -19,16 +19,21 @@ import './index.scss'
 
 import Navbar from "../../components/Navbar";
 
-const Step1 = () => {
+const Step1 = ({ selectOrgType }) => {
+
+	const selectOpt = (opt) => {
+		selectOrgType(opt);
+	};
+
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
+			<Button onClick={() => {selectOpt('new')}} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 				<Typography className='gradient-text text-style' sx={{ fontSize: '24px' }}>Create an organization</Typography>
 				<Typography classname='text-style' sx={{ color: '#fff' }}>Start your organization with Aragon</Typography>
-			</Box>
-			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+			</Button>
+			<Button onClick={() => {selectOpt('existing')}} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 				<Typography classname='text-style' sx={{ color: '#fff' }}>Open an existing organization</Typography>
-			</Box>
+			</Button>
 		</Box>
 	)
 };
@@ -199,12 +204,27 @@ const Step5 = () => {
 };
 
 const Borrow = () => {
+	const [orgType, selectOrgType] = useState('');
+	const [step, selectStep] = useState(0);
+
+	const steps = [
+		<Step1 selectOrgType={selectOrgType} />,
+		<Step2 />,
+	]
+
+	useEffect(() => {
+		if(step === 0 && orgType) {
+			selectStep(1);
+		}
+	}, [orgType]);
+
 	return (
 		<>
 			<Navbar />
 			<Container maxWidth="lg" className='home' sx={{ marginTop: '10px' }}>
 
-				<Step1 />
+				{/* <Step1 selectOrgType={selectOrgType} /> */}
+				{steps[step]}
 
 				{/* <Typography variant="h2" sx={{
 					fontSize: 30,

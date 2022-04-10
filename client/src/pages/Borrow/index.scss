@@ -1,10 +1,11 @@
 .grey-container {
-	background: rgba(28, 28, 28, 0.6);
+	background-color: rgba(28, 28, 28, 0.6) !important;
 	backdrop-filter: blur(20px);
 	border-radius: 16px;
 	padding: 20px;
 	width: 418px;
-	margin-top: 20px;
+	margin-top: 20px !important;
+	margin-bottom: 20px !important;
 }
 
 .text-style {
