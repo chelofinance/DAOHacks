@@ -1,38 +1,38 @@
-import Home from './pages/Home';
-import Lend from './pages/Lend';
-import Borrow from './pages/Borrow';
-import Portfolio from './pages/Portfolio';
-import Governance from './pages/Governance';
+import Home from "./pages/Home";
+import Lend from "./pages/Lend";
+import Borrow from "./pages/Borrow";
+import Portfolio from "./pages/Portfolio";
+import Governance from "./pages/Governance";
 
 export const ROUTES = [
 	{
-		title: 'Dashboard',
+		title: "Dashboard",
 		component: Home,
 		exact: true,
-		path: '/home'
+		path: "/home",
 	},
-	// {
-	// 	title: 'Lend',
-	// 	component: Lend,
-	// 	exact: true,
-	// 	path: '/lend'
-	// },
 	{
-		title: 'Create a DAO',
+		title: "Lend",
+		component: Lend,
+		exact: true,
+		path: "/lend",
+	},
+	{
+		title: "Create a DAO",
 		component: Borrow,
 		exact: true,
-		path: '/borrow'
+		path: "/borrow",
 	},
 	{
-		title: 'Portfolio',
+		title: "Portfolio",
 		component: Portfolio,
 		exact: true,
-		path: '/portfolios'
+		path: "/portfolios",
 	},
 	{
-		title: 'Governance',
+		title: "Governance",
 		component: Governance,
 		exact: true,
-		path: '/governance'
+		path: "/governance",
 	},
 ];
