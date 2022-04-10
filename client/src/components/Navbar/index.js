@@ -31,8 +31,6 @@ const Navbar = () => {
   const blockNumber = wallet.getBlockNumber()
   const { pathname } = useLocation();
 
-  console.log(pathname)
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [account, setAccount] = React.useState(null);

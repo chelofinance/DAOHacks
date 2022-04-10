@@ -28,11 +28,11 @@ const Step1 = ({ selectOrgType, selectStep }) => {
 
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
-			<Button onClick={() => {selectOpt('new')}} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+			<Button onClick={() => { selectOpt('new') }} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 				<Typography className='gradient-text text-style' sx={{ fontSize: '24px' }}>Create an organization</Typography>
 				<Typography classname='text-style' sx={{ color: '#fff' }}>Start your organization with Aragon</Typography>
 			</Button>
-			<Button onClick={() => {selectOpt('existing')}} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+			<Button onClick={() => { selectOpt('existing') }} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 				<Typography classname='text-style' sx={{ color: '#fff' }}>Open an existing organization</Typography>
 			</Button>
 		</Box>
@@ -72,7 +72,7 @@ const Step2 = ({ orgName, selectOrgName, selectStep }) => {
 	)
 };
 
-const Step3 = ({orgTemplate, selectOrgTemplate, selectStep }) => {
+const Step3 = ({ orgTemplate, selectOrgTemplate, selectStep }) => {
 
 	const row1 = [
 		{ title: 'Company', value: 'company' },
@@ -126,52 +126,76 @@ const Step3 = ({orgTemplate, selectOrgTemplate, selectStep }) => {
 	)
 };
 
-const Step4 = ({ selectStep }) => {
+const Step4 = ({ setTokenDetails, selectStep }) => {
 	const [tokenName, setTokenName] = useState('');
 	const [tokenSymbol, setTokenSymbol] = useState('');
-	const [tokenHolders, setTokenHolders] = useState([]);
+	const [tokenHolders, setTokenHolders] = useState(['']);
 
-	const updateTokenHolders = (e, k) => {
-
+	const updateTokenHolders = (e, i) => {
+		const holders = [...tokenHolders];
+		holders[i] = e.target.value;
+		setTokenHolders(holders);
 	};
 
+	const addMore = () => {
+		setTokenHolders([...tokenHolders, '']);
+	};
+
+	useEffect(() => {
+		setTokenDetails({
+			tokenName,
+			tokenSymbol,
+			tokenHolders
+		});
+	}, [tokenName, tokenSymbol, tokenHolders]);
+
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
 			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column' }}>
 
-				<Typography>CHOOSE YOUR TOKENS SETTINGS BELOW</Typography>
+				<Typography className='text-style' sx={{ color: '#fff', textAlign: 'center' }}>CHOOSE YOUR TOKENS SETTINGS BELOW</Typography>
 
-				<FormControl fullWidth variant="filled" sx={{ display: 'flex', flexDirection: 'column' }}>
-					<Box sx={{display: 'flex', flexDirection: 'row'}}>
-						<InputLabel sx={{ color: '#fff' }}>TOKEN NAME</InputLabel>
-						<Input
-							value={tokenName}
-							onChange={(e) => { setTokenName(e.target.value) }}
-						/>
-					</Box>
-
-					<Box>
-						<InputLabel sx={{ color: '#fff' }}>TOKEN SYMBOL</InputLabel>
-						<Input
-							value={tokenSymbol}
-							onChange={(e) => { setTokenSymbol(e.target.value) }}
-						/>
-					</Box>
-
-					<Box>
-						<InputLabel sx={{ color: '#fff' }}>TOKEN HOLDERS</InputLabel>
-						{tokenHolders.map((k, i) => (
+				<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+					<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+						<FormControl fullWidth sx={{ m: 1 }} variant="filled">
+							<InputLabel sx={{ color: '#fff' }}>TOKEN NAME</InputLabel>
 							<Input
-								key={i}
-								value={k.address}
-								onChange={(e) => { updateTokenHolders(e, k) }}
+								sx={{ color: '#fff' }}
+								value={tokenName}
+								onChange={(e) => { setTokenName(e.target.value) }}
 							/>
-						))}
-						<Button className='next-bk-btn'>
-							<span className='gradient-text'>Add more</span>
-						</Button>
+						</FormControl>
 					</Box>
-				</FormControl>
+
+					<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+						<FormControl fullWidth sx={{ m: 1 }} variant="filled">
+							<InputLabel sx={{ color: '#fff' }}>TOKEN SYMBOL</InputLabel>
+							<Input
+								sx={{ color: '#fff' }}
+								value={tokenSymbol}
+								onChange={(e) => { setTokenSymbol(e.target.value) }}
+							/>
+						</FormControl>
+					</Box>
+
+					<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+						<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: '20px' }}>
+							<p style={{ color: '#fff' }}>TOKEN HOLDERS</p>
+							<Button className='next-bk-btn' sx={{ width: '100px' }} onClick={addMore}>
+								<span className='gradient-text'>Add more</span>
+							</Button>
+						</Box>
+						{tokenHolders.map((k, i) => (
+							<FormControl key={i} fullWidth sx={{ m: 1 }} variant="filled">
+								<Input
+									sx={{ color: '#fff' }}
+									value={k}
+									onChange={(e) => { updateTokenHolders(e, i) }}
+								/>
+							</FormControl>
+						))}
+					</Box>
+				</Box>
 
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
@@ -188,14 +212,18 @@ const Step4 = ({ selectStep }) => {
 	)
 };
 
-const Step5 = () => {
+const Step5 = ({ setComplete }) => {
 	return (
-		<Box>
-			<Box>
-				<Typography>All Done</Typography>
-				<Typography>Your organization is ready</Typography>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
+			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column' }}>
+				<Box>
+					<Typography className='text-style' sx={{ color: '#fff', textAlign: 'center' }}>All Done</Typography>
+					<Typography className='text-style' sx={{ color: '#fff', textAlign: 'center' }}>Your organization is ready</Typography>
+				</Box>
+				<Button className='next-bk-btn' onClick={() => { setComplete(true) }}>
+					<span className='gradient-text'>Get Started</span>
+				</Button>
 			</Box>
-			<Button>Get Started</Button>
 		</Box>
 	)
 };
@@ -204,37 +232,41 @@ const Borrow = () => {
 	const [orgType, selectOrgType] = useState('');
 	const [orgName, selectOrgName] = useState('');
 	const [orgTemplate, selectOrgTemplate] = useState('company');
+	const [tokenDetails, setTokenDetails] = useState({});
 	const [step, selectStep] = useState(0);
+	const [complete, setComplete] = useState(false);
+	const [allDetails, setAllDetails] = useState({});
 
 	const steps = [
 		<Step1 selectOrgType={selectOrgType} selectStep={selectStep} />,
-		<Step2 orgName={orgName} selectOrgName={selectOrgName} selectStep={selectStep}/>,
-		<Step3 orgTemplate={orgTemplate} selectOrgTemplate={selectOrgTemplate} selectStep={selectStep}/>,
-		<Step4 selectStep={selectStep}/>,
-		<Step5/>,
+		<Step2 orgName={orgName} selectOrgName={selectOrgName} selectStep={selectStep} />,
+		<Step3 orgTemplate={orgTemplate} selectOrgTemplate={selectOrgTemplate} selectStep={selectStep} />,
+		<Step4 setTokenDetails={setTokenDetails} selectStep={selectStep} />,
+		<Step5 setComplete={setComplete} />,
 	]
 
 	useEffect(() => {
-		console.log(orgType, orgName, orgTemplate);
+		if(step === 4) {
+			const details = {
+				orgName,
+				orgType,
+				orgTemplate,
+				...tokenDetails
+			};
+			setAllDetails(details);
+		}
 	}, [step]);
+
+	useEffect(() => {
+		console.log(allDetails);
+	}, [complete]);
 
 	return (
 		<>
 			<Navbar />
 			<Container maxWidth="lg" className='home' sx={{ marginTop: '10px' }}>
 
-				{/* <Step1 selectOrgType={selectOrgType} /> */}
 				{steps[step]}
-
-				{/* <Typography variant="h2" sx={{
-					fontSize: 30,
-					fontFamily: 'Readex Pro',
-					marginTop: '50px',
-					marginBottom: '30px',
-					color: '#000'
-				}} gutterBottom>
-					Borrow
-				</Typography> */}
 
 			</Container>
 		</>
