@@ -38,6 +38,7 @@ export interface TandaInterface extends utils.Interface {
     "currentWinner()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "startLending(address,bytes)": FunctionFragment;
     "toggleMember(address,bool)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
@@ -53,6 +54,7 @@ export interface TandaInterface extends utils.Interface {
       | "currentWinner"
       | "owner"
       | "renounceOwnership"
+      | "startLending"
       | "toggleMember"
       | "transferOwnership"
   ): FunctionFragment;
@@ -89,6 +91,10 @@ export interface TandaInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "startLending",
+    values: [string, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "toggleMember",
@@ -130,6 +136,10 @@ export interface TandaInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "startLending",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -272,6 +282,12 @@ export interface Tanda extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    startLending(
+      newBorrower: string,
+      ctx: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     toggleMember(
       _member: string,
       added: boolean,
@@ -357,6 +373,12 @@ export interface Tanda extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  startLending(
+    newBorrower: string,
+    ctx: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   toggleMember(
     _member: string,
     added: boolean,
@@ -439,6 +461,12 @@ export interface Tanda extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    startLending(
+      newBorrower: string,
+      ctx: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     toggleMember(
       _member: string,
@@ -532,6 +560,12 @@ export interface Tanda extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    startLending(
+      newBorrower: string,
+      ctx: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     toggleMember(
       _member: string,
       added: boolean,
@@ -607,6 +641,12 @@ export interface Tanda extends BaseContract {
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    startLending(
+      newBorrower: string,
+      ctx: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

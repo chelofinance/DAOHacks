@@ -46,5 +46,7 @@ contract CreateTandaDAO {
         for (uint i = 0; i < _members.length; i++)
             tanda.toggleMember(_members[i],true);
         tanda.transferOwnership(agent);
+
+        emit TandaDAOCreated(_id,address(tanda));
     }
 } 

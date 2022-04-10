@@ -3,6 +3,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import {config as dotenvConfig} from "dotenv";
 import "hardhat-gas-reporter";
+import "@nomiclabs/hardhat-web3";
 import {HardhatUserConfig} from "hardhat/config";
 import {NetworkUserConfig} from "hardhat/types";
 import {resolve} from "path";
@@ -24,7 +25,7 @@ const config: HardhatUserConfig = {
     rinkeby: {
       url: process.env.RINKEBY_PROVIDER,
       accounts: [process.env.PRIVATE_KEY || ""],
-      timeout: 100000,
+      timeout: 10000000,
       //gasPrice: 65000000000
     },
   },

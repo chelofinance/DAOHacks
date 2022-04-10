@@ -87,7 +87,11 @@
   },
   "dependencies": {
     "@aragon/templates-shared": "^1.0.1",
+    "@aragon/wrapper": "^5.5.1",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
     "@superfluid-finance/ethereum-contracts": "^1.1.1",
-    "app-root-path": "^3.0.0"
+    "@superfluid-finance/sdk-core": "^0.3.2",
+    "app-root-path": "^3.0.0",
+    "web3": "^1.7.3"
   }
 }

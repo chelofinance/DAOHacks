@@ -67,78 +67,16 @@ contract Tanda is Ownable, ISuperApp {
     function toggleMember(address _member,bool added) public onlyOwner{
         _members[_member] = added;
     }
-    /**************************************************************************
-     * Game Logic
-     *************************************************************************/
 
-    function currentWinner()
-        external view
-        returns (
-            uint256 drawingTime,
-            address player,
-            int96 flowRate
-        )
-    {
-        if (_borrower != address(0)) {
-            (drawingTime, flowRate,,) = _cfa.getFlow(_acceptedToken, address(this), _borrower);
-            player = _borrower;
-        }
-    }
-
-
-    /// @dev Check requirements before letting the user playing the game
-    function _beforePlay(
-        bytes calldata ctx
-    )
-        private view
-        returns (bytes memory cbdata)
-    {
-        ISuperfluid.Context memory callContext = _host.decodeCtx(ctx);
-        cbdata = abi.encode(callContext.msgSender);
-    }
-
-    /// @dev Play the game
-    function _participate(
-        bytes calldata ctx,
-        address agreementClass,
-        bytes32 agreementId,
-        bytes calldata cbdata
-    )
-        private
-        returns (bytes memory newCtx)
-    {
-        (address player) = abi.decode(cbdata, (address));
-
-        (,int96 flowRate,,) = IConstantFlowAgreementV1(agreementClass).getFlowByID(_acceptedToken, agreementId);
-        require(flowRate >= _MINIMUM_FLOW_RATE, _ERR_STR_LOW_FLOW_RATE);
-        require(_members[ player ],"NOT_WHITELISTED");
-
-        return _draw(player, ctx);
-    }
-
-    /// @dev Play the game
-    function _quit(
-        bytes calldata ctx
-    )
-        private
-        returns (bytes memory newCtx)
-    {
-        ISuperfluid.Context memory callContext = _host.decodeCtx(ctx);
-
-        _members[ callContext.msgSender ] = false;
-
-        return _draw(callContext.msgSender, ctx);
-    }
-
-    // @dev Make a new draw
-    function _draw(
+    function startLending(
        address newBorrower,
         bytes calldata ctx
     )
-        private
+        public
+        onlyOwner
         returns (bytes memory newCtx)
     {
-        require(_members[newBorrower],'BORROWER not in Tanda');
+        require(_members[newBorrower] || newBorrower == address(0),'BORROWER not in Tanda');
 
         address oldBorrower = _borrower;
         _borrower = newBorrower;
@@ -178,6 +116,53 @@ contract Tanda is Ownable, ISuperApp {
 
         emit BorrowerChanged(_borrower);
     }
+    /**************************************************************************
+     * Game Logic
+     *************************************************************************/
+
+    function currentWinner()
+        external view
+        returns (
+            uint256 drawingTime,
+            address player,
+            int96 flowRate
+        )
+    {
+        if (_borrower != address(0)) {
+            (drawingTime, flowRate,,) = _cfa.getFlow(_acceptedToken, address(this), _borrower);
+            player = _borrower;
+        }
+    }
+
+
+    /// @dev Check requirements before letting the user playing the game
+    function _beforePlay(
+        bytes calldata ctx
+    )
+        private view
+        returns (bytes memory cbdata)
+    {
+        ISuperfluid.Context memory callContext = _host.decodeCtx(ctx);
+        cbdata = abi.encode(callContext.msgSender);
+    }
+
+    /// @dev Play the game
+    function _participate(
+        bytes calldata ctx,
+        address agreementClass,
+        bytes32 agreementId,
+        bytes calldata cbdata
+    )
+        private
+    {
+        (address player) = abi.decode(cbdata, (address));
+        require(_members[ player ],"NOT_WHITELISTED");
+
+        (,int96 flowRate,,) = IConstantFlowAgreementV1(agreementClass).getFlowByID(_acceptedToken, agreementId);
+        require(flowRate >= _MINIMUM_FLOW_RATE, _ERR_STR_LOW_FLOW_RATE);
+    }
+
+    // @dev Make a new draw
 
     /**************************************************************************
      * SuperApp callbacks
@@ -210,7 +195,7 @@ contract Tanda is Ownable, ISuperApp {
         onlyHost
         returns (bytes memory newCtx)
     {
-        return _participate(ctx, agreementClass, agreementId, cbdata);
+        return ctx;
     }
 
     function beforeAgreementUpdated(
@@ -240,7 +225,7 @@ contract Tanda is Ownable, ISuperApp {
         onlyHost
         returns (bytes memory newCtx)
     {
-        return _participate(ctx, agreementClass, agreementId, cbdata);
+        return ctx;
     }
 
     function beforeAgreementTerminated(
@@ -275,7 +260,7 @@ contract Tanda is Ownable, ISuperApp {
         // According to the app basic law, we should never revert in a termination callback
         (bool shouldIgnore) = abi.decode(cbdata, (bool));
         if (shouldIgnore) return ctx;
-        return _quit(ctx);
+        return ctx;
     }
 
     function _isSameToken(ISuperToken superToken) private view returns (bool) {
