@@ -50,7 +50,7 @@ const Landing = () => {
 
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
-			<img src={landing} style={imgStyle}/>
+			{/* <img src={landing} style={imgStyle}/> */}
 			<Box sx={{display: 'flex', flexDirection: 'column', position: 'absolute'}}>
 				<h3 style={headingStyle}>Use Quicklend.</h3>
 				<h3 style={headingStyle}>Go bankless.</h3>

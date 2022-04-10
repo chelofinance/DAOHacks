@@ -1,5 +1,5 @@
 import {ROUTES} from '../../Router';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -15,6 +15,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
+import './index.scss'
+
 import {useWallet } from 'use-wallet'
 import makeBlockie from 'ethereum-blockies-base64';
 // import connect from '@aragon/connect'
@@ -27,6 +29,9 @@ const LOGO = 'QuickLend';
 const Navbar = () => {
   const wallet = useWallet()
   const blockNumber = wallet.getBlockNumber()
+  const { pathname } = useLocation();
+
+  console.log(pathname)
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -61,7 +66,7 @@ const Navbar = () => {
     if(wallet.status == 'connected') {
       const img = makeBlockie(wallet.account);
       let acc = wallet.account;
-      acc = acc.slice(0, 7) + '...' + acc.slice(-4)
+      acc = acc.slice(0, 10) + '...' + acc.slice(-7)
       setAccount(acc);
       setBlockie(img);
       setBalance(wallet.balance);
@@ -77,16 +82,16 @@ const Navbar = () => {
 
   return (
     <AppBar position="static" sx={{
-      backgroundColor: '#fff',
-      color: '#000',
+      backgroundColor: '#1C1924',
+      color: '#A6A0BB',
       boxShadow: 'unset',
-      borderBottom: '1px solid rgb(231, 234, 243);'
     }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
 					{/* Desktop Logo */}
           <Typography
+            className="logo"
             variant="h6"
             noWrap
             component="div"
@@ -135,6 +140,7 @@ const Navbar = () => {
 
 					{/* Mobile Logo */}
           <Typography
+            className="logo"
             variant="h6"
             noWrap
             component="div"
@@ -147,11 +153,12 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {ROUTES.map((k, i) => (
               <Button
+                className={(k.path === pathname ? 'selected-tab' : '')}
 								as={Link}
 								to={k.path}
                 key={i}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'rgb(96, 105, 124)', display: 'block', textDecoration: 'none' }}
+                sx={{ my: 2, color: '#A6A0BB', display: 'block', textDecoration: 'none' }}
               >
                 {k.title}
               </Button>
@@ -162,7 +169,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             {wallet.status === 'connected' ? (
               <div>
-                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                <Box sx={{display: 'flex', flexDirection: 'row', backgroundColor: '#fff', padding: '12px 16px', borderRadius: '6px', width: '240px'}}>
                   <div>
                     <img src={blockie} style={{width: '24px', height:'24px', borderRadius: '5px', marginRight: '10px'}}/>
                     <div style={{
@@ -187,9 +194,10 @@ const Navbar = () => {
             ) : (
               <div>
                 <Button 
-                  sx={{ my: 2, color: '#1A1AFF', border: '1px solid #1A1AFF', display: 'block', textDecoration: 'none' }}
+                  className="gradient"
+                  sx={{ my: 2 }}
                   onClick={connectWallet}>
-                    Connect Wallet
+                    <span>Connect Wallet</span>
                 </Button>
               </div>
             )}

@@ -1,0 +1,16 @@
+$topBarDarkBlue: #5F7FB7;
+$topBarLightBlue: #8EABE1;
+
+@mixin bg-gradient {
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // background-clip: text;
+  // text-fill-color: transparent;
+}
+
+@mixin text-color-gradient {
+  background: -webkit-linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+	-webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

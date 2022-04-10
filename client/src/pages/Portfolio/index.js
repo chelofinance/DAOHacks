@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Navbar from "../../components/Navbar";
 
-const Lend = () => {
+const Portfolio = () => {
 	return (
 		<>
 			<Navbar />
@@ -16,7 +16,7 @@ const Lend = () => {
 					marginBottom: '30px',
 					color: '#000'
 				}} gutterBottom>
-					Lend
+					Portfolio
 				</Typography>
 
 			</Container>
@@ -24,4 +24,4 @@ const Lend = () => {
 	)
 };
 
-export default Lend;
+export default Portfolio;

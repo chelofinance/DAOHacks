@@ -1,0 +1,24 @@
+@import '../../sass/mixins';
+
+.gradient {
+	span {
+		@include text-color-gradient;
+	}
+}
+
+.selected-tab {
+	text-decoration: underline !important;
+  text-underline-offset: 10px !important;
+	color: #fff !important;
+	font-weight: 600 !important;
+}
+
+.logo {
+	@include text-color-gradient;
+	font-family: 'Readex Pro';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 28.5714px;
+	line-height: 32px;
+	text-align: center;
+}

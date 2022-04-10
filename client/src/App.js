@@ -11,7 +11,8 @@ import Container from '@mui/material/Container';
 import Landing from './pages/Landing';
 
 import { ROUTES } from './Router';
-import Navbar from "./components/Navbar";
+
+import './App.scss'
 
 const App = () => {
   return (
