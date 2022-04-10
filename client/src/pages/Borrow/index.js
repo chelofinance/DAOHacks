@@ -29,10 +29,10 @@ const Step1 = ({selectOrgType, selectStep}) => {
 		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
 			<Button onClick={() => { selectOpt('new') }} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 				<Typography className='gradient-text text-style' sx={{ fontSize: '24px' }}>Create an organization</Typography>
-				<Typography classname='text-style' sx={{ color: '#fff' }}>Start your organization with Aragon</Typography>
+				<Typography className='text-style' sx={{ color: '#fff' }}>Start your organization with Aragon</Typography>
 			</Button>
 			<Button onClick={() => { selectOpt('existing') }} className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-				<Typography classname='text-style' sx={{ color: '#fff' }}>Open an existing organization</Typography>
+				<Typography className='text-style' sx={{ color: '#fff' }}>Open an existing organization</Typography>
 			</Button>
 		</Box>
 	);
