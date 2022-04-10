@@ -19,10 +19,11 @@ import './index.scss'
 
 import Navbar from "../../components/Navbar";
 
-const Step1 = ({ selectOrgType }) => {
+const Step1 = ({ selectOrgType, selectStep }) => {
 
 	const selectOpt = (opt) => {
 		selectOrgType(opt);
+		selectStep(1);
 	};
 
 	return (
@@ -38,11 +39,9 @@ const Step1 = ({ selectOrgType }) => {
 	)
 };
 
-const Step2 = () => {
-	const [name, setName] = useState('');
-
+const Step2 = ({ orgName, selectOrgName, selectStep }) => {
 	const handleChange = (event) => {
-		setName(event.target.value);
+		selectOrgName(event.target.value);
 	};
 
 	return (
@@ -53,18 +52,18 @@ const Step2 = () => {
 					<InputLabel sx={{ color: '#fff' }}>NAME OF ORGANIZATION</InputLabel>
 					<Input
 						sx={{ color: '#fff' }}
-						value={name}
+						value={orgName}
 						onChange={handleChange}
 					/>
 				</FormControl>
 
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
-					<Button className='next-bk-btn'>
+					<Button className='next-bk-btn' onClick={() => { selectStep(0) }}>
 						<span className='gradient-text'>Back</span>
 					</Button>
 
-					<Button className='next-bk-btn'>
+					<Button className='next-bk-btn' onClick={() => { selectStep(2) }}>
 						<span className='gradient-text'>Open Organization</span>
 					</Button>
 				</Box>
@@ -73,7 +72,7 @@ const Step2 = () => {
 	)
 };
 
-const Step3 = () => {
+const Step3 = ({orgTemplate, selectOrgTemplate, selectStep }) => {
 
 	const row1 = [
 		{ title: 'Company', value: 'company' },
@@ -87,8 +86,6 @@ const Step3 = () => {
 		{ title: 'Fundraising', value: 'fundraising' }
 	];
 
-	const [template, setTemplate] = useState(row1[0].value);
-
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
 			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -96,8 +93,8 @@ const Step3 = () => {
 
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
 					{row1.map((k, i) => (
-						<Button key={i} onClick={() => { setTemplate(k.value) }} sx={{
-							backgroundColor: template === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'
+						<Button key={i} onClick={() => { selectOrgTemplate(k.value) }} sx={{
+							backgroundColor: orgTemplate === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'
 						}}>
 							{k.title}
 						</Button>
@@ -106,8 +103,8 @@ const Step3 = () => {
 
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '20px' }}>
 					{row2.map((k, i) => (
-						<Button key={i} onClick={() => { setTemplate(k.value) }} sx={{
-							backgroundColor: template === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'
+						<Button key={i} onClick={() => { selectOrgTemplate(k.value) }} sx={{
+							backgroundColor: orgTemplate === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'
 						}}>
 							{k.title}
 						</Button>
@@ -116,11 +113,11 @@ const Step3 = () => {
 
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
-					<Button className='next-bk-btn'>
+					<Button className='next-bk-btn' onClick={() => { selectStep(1) }}>
 						<span className='gradient-text'>Back</span>
 					</Button>
 
-					<Button className='next-bk-btn'>
+					<Button className='next-bk-btn' onClick={() => { selectStep(3) }}>
 						<span className='gradient-text'>Select Template</span>
 					</Button>
 				</Box>
@@ -129,7 +126,7 @@ const Step3 = () => {
 	)
 };
 
-const Step4 = () => {
+const Step4 = ({ selectStep }) => {
 	const [tokenName, setTokenName] = useState('');
 	const [tokenSymbol, setTokenSymbol] = useState('');
 	const [tokenHolders, setTokenHolders] = useState([]);
@@ -178,11 +175,11 @@ const Step4 = () => {
 
 				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
-					<Button className='next-bk-btn'>
+					<Button className='next-bk-btn' onClick={() => { selectStep(2) }}>
 						<span className='gradient-text'>Back</span>
 					</Button>
 
-					<Button className='next-bk-btn'>
+					<Button className='next-bk-btn' onClick={() => { selectStep(4) }}>
 						<span className='gradient-text'>Create DAO</span>
 					</Button>
 				</Box>
@@ -205,18 +202,21 @@ const Step5 = () => {
 
 const Borrow = () => {
 	const [orgType, selectOrgType] = useState('');
+	const [orgName, selectOrgName] = useState('');
+	const [orgTemplate, selectOrgTemplate] = useState('company');
 	const [step, selectStep] = useState(0);
 
 	const steps = [
-		<Step1 selectOrgType={selectOrgType} />,
-		<Step2 />,
+		<Step1 selectOrgType={selectOrgType} selectStep={selectStep} />,
+		<Step2 orgName={orgName} selectOrgName={selectOrgName} selectStep={selectStep}/>,
+		<Step3 orgTemplate={orgTemplate} selectOrgTemplate={selectOrgTemplate} selectStep={selectStep}/>,
+		<Step4 selectStep={selectStep}/>,
+		<Step5/>,
 	]
 
 	useEffect(() => {
-		if(step === 0 && orgType) {
-			selectStep(1);
-		}
-	}, [orgType]);
+		console.log(orgType, orgName, orgTemplate);
+	}, [step]);
 
 	return (
 		<>
