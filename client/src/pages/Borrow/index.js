@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -21,13 +21,13 @@ import Navbar from "../../components/Navbar";
 
 const Step1 = () => {
 	return (
-		<Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-			<Box className='grey-container' sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-				<Typography className='gradient-text text-style' sx={{fontSize: '24px'}}>Create an organization</Typography>
-				<Typography classname='text-style' sx={{color: '#fff'}}>Start your organization with Aragon</Typography>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<Typography className='gradient-text text-style' sx={{ fontSize: '24px' }}>Create an organization</Typography>
+				<Typography classname='text-style' sx={{ color: '#fff' }}>Start your organization with Aragon</Typography>
 			</Box>
-			<Box className='grey-container' sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-				<Typography classname='text-style' sx={{color: '#fff'}}>Open an existing organization</Typography>
+			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+				<Typography classname='text-style' sx={{ color: '#fff' }}>Open an existing organization</Typography>
 			</Box>
 		</Box>
 	)
@@ -36,23 +36,34 @@ const Step1 = () => {
 const Step2 = () => {
 	const [name, setName] = useState('');
 
-  const handleChange = (event) => {
-    setName(event.target.value);
-  };
+	const handleChange = (event) => {
+		setName(event.target.value);
+	};
 
 	return (
-		<Box>
-			<Button>Back</Button>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
+			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column' }}>
 
-			<FormControl fullWidth sx={{ m: 1 }} variant="filled">
-				<InputLabel htmlFor="filled-adornment-amount">NAME OF ORGANIZATION</InputLabel>
-				<FilledInput
-					value={name}
-					onChange={handleChange}
-				/>
-			</FormControl>
+				<FormControl fullWidth sx={{ m: 1 }} variant="filled">
+					<InputLabel sx={{ color: '#fff' }}>NAME OF ORGANIZATION</InputLabel>
+					<Input
+						sx={{ color: '#fff' }}
+						value={name}
+						onChange={handleChange}
+					/>
+				</FormControl>
 
-			<Button>Open Organization</Button>
+				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+
+					<Button className='next-bk-btn'>
+						<span className='gradient-text'>Back</span>
+					</Button>
+
+					<Button className='next-bk-btn'>
+						<span className='gradient-text'>Open Organization</span>
+					</Button>
+				</Box>
+			</Box>
 		</Box>
 	)
 };
@@ -74,28 +85,41 @@ const Step3 = () => {
 	const [template, setTemplate] = useState(row1[0].value);
 
 	return (
-		<Box>
-			<Button>Back</Button>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '90vh' }}>
+			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column' }}>
+				<Button className='gradient-text next-bk-btn'>Back</Button>
 
-			<Box sx={{display: 'flex', flexDirection: 'row'}}>
-				{row1.map((k, i) => (
-					<Button key={i} onClick={() => { setTemplate(k.value) }} sx={{
-						backgroundColor: template === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'}}>
+				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '10px' }}>
+					{row1.map((k, i) => (
+						<Button key={i} onClick={() => { setTemplate(k.value) }} sx={{
+							backgroundColor: template === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'
+						}}>
 							{k.title}
-					</Button>
-				))}
-			</Box>
+						</Button>
+					))}
+				</Box>
 
-			<Box sx={{display: 'flex', flexDirection: 'row'}}>
-				{row2.map((k, i) => (
-					<Button key={i} onClick={() => { setTemplate(k.value) }} sx={{
-						backgroundColor: template === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'}}>
+				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '20px' }}>
+					{row2.map((k, i) => (
+						<Button key={i} onClick={() => { setTemplate(k.value) }} sx={{
+							backgroundColor: template === k.value ? '#000' : 'rgba(176, 176, 176, 0.1);'
+						}}>
 							{k.title}
-					</Button>
-				))}
-			</Box>
+						</Button>
+					))}
+				</Box>
 
-			<Button>Select Template</Button>
+				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+
+					<Button className='next-bk-btn'>
+						<span className='gradient-text'>Back</span>
+					</Button>
+
+					<Button className='next-bk-btn'>
+						<span className='gradient-text'>Select Template</span>
+					</Button>
+				</Box>
+			</Box>
 		</Box>
 	)
 };
@@ -110,37 +134,54 @@ const Step4 = () => {
 	};
 
 	return (
-		<Box>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+			<Box className='grey-container' sx={{ display: 'flex', flexDirection: 'column' }}>
 
-			<Typography>CHOOSE YOUR TOKENS SETTINGS BELOW</Typography>
+				<Typography>CHOOSE YOUR TOKENS SETTINGS BELOW</Typography>
 
-			<FormControl fullWidth sx={{ m: 1 }} variant="filled">
-				<InputLabel htmlFor="filled-adornment-amount">TOKEN NAME</InputLabel>
-				<FilledInput
-					value={tokenName}
-					onChange={(e) => { setTokenName(e.target.value)}}
-				/>
+				<FormControl fullWidth variant="filled" sx={{ display: 'flex', flexDirection: 'column' }}>
+					<Box sx={{display: 'flex', flexDirection: 'row'}}>
+						<InputLabel sx={{ color: '#fff' }}>TOKEN NAME</InputLabel>
+						<Input
+							value={tokenName}
+							onChange={(e) => { setTokenName(e.target.value) }}
+						/>
+					</Box>
 
-				<InputLabel htmlFor="filled-adornment-amount">TOKEN SYMBOL</InputLabel>
-				<FilledInput
-					value={tokenSymbol}
-					onChange={(e) => { setTokenSymbol(e.target.value)}}
-				/>
+					<Box>
+						<InputLabel sx={{ color: '#fff' }}>TOKEN SYMBOL</InputLabel>
+						<Input
+							value={tokenSymbol}
+							onChange={(e) => { setTokenSymbol(e.target.value) }}
+						/>
+					</Box>
 
-				<InputLabel htmlFor="filled-adornment-amount">TOKEN HOLDERS</InputLabel>
-				{tokenHolders.map((k, i) => (
-					<FilledInput
-						key={i}
-						value={k.address}
-						onChange={(e) => { updateTokenHolders(e, k)}}
-					/>
-				))}
-				<Button>Add more</Button>
+					<Box>
+						<InputLabel sx={{ color: '#fff' }}>TOKEN HOLDERS</InputLabel>
+						{tokenHolders.map((k, i) => (
+							<Input
+								key={i}
+								value={k.address}
+								onChange={(e) => { updateTokenHolders(e, k) }}
+							/>
+						))}
+						<Button className='next-bk-btn'>
+							<span className='gradient-text'>Add more</span>
+						</Button>
+					</Box>
+				</FormControl>
 
-			</FormControl>
+				<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
 
-			<Button>Create DAO</Button>
-			<Button>Back</Button>
+					<Button className='next-bk-btn'>
+						<span className='gradient-text'>Back</span>
+					</Button>
+
+					<Button className='next-bk-btn'>
+						<span className='gradient-text'>Create DAO</span>
+					</Button>
+				</Box>
+			</Box>
 		</Box>
 	)
 };
